@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        h1{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <form action="staffselection" method='post'>
+    {% csrf_token %}
+        <h1>Select Staffs</h1>
+    <div class="box1">
+        <label for="departmentstaff">Select required staffs:</label>
+        {%for i in mstaff%}
+        <input type='checkbox' name='staff_name' value="{{i.id}}"><label for="{{i.name}}"> {{i.name}}</label><br>
+        {%endfor%}
+        {%for i in fstaff%}
+        <input type='checkbox' name='staff_name' value="{{i.id}}"><label for="{{i.name}}"> {{i.name}}</label><br>
+        {%endfor%}
+            
+    </div>
+    <button class="edit" id="editPageButton">Edit Staff</button>
+
+    <button class="next" id="nextPageButton">Next</button>
+</form>
+    <script>
+    document.getElementById("editPageButton").addEventListener("click", function() {
+    
+    window.location.href = "Editstaff.html";
+    });
+    </script>
+</body>
+</html>

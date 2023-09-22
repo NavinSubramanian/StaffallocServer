@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Calendar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            font-family: 'Poppins';
+            font-weight: 300;
+        }
+
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            row-gap: 20px;
+            max-width: 300px;
+            margin-top: 50px;
+            column-gap: 50px;
+        }
+
+        .calendar-day {
+            border: 1px solid #000000a6;
+            padding: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: 1s;
+        }
+        .calendar-day:hover{
+            transform: translateY(5px);
+            box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+        }
+
+        .button {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .bt1,
+        .bt2,
+        .bt3,
+        .bt4 {
+            background-color: #39397f;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            height: 50px;
+            font-family: 'Poppins';
+            font-weight: 500;
+            width: 200px;
+            cursor: pointer;
+            margin-top: 50px;
+            transition: 1s;
+        }
+
+        h1 {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            text-align: left;
+            margin: auto;
+            width: 250px;
+            border-bottom: 2px solid black;
+        }
+
+        .search-input {
+            margin-top: 80px;
+        }
+
+        .bt2:hover {
+            opacity: 0.7;
+            border-radius: 20px;
+        }
+
+        .bt3:hover {
+            opacity: 0.7;
+            border-radius: 20px;
+        }
+
+        .bt4:hover {
+            opacity: 0.7;
+            border-radius: 20px;
+        }
+
+        .bt1:hover {
+            opacity: 0.7;
+            border-radius: 20px;
+        }
+
+        hr {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        input[type="number"]{
+            height: 20px;
+            width: 50px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+        .dates__{
+            margin-left: 135px;
+        }
+        input[type="text"]{
+            height: 20px;
+            width: 150px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+        .gen_button {
+            appearance: none;
+            background-color: transparent;
+            border: 2px solid #1A1A1A;
+            border-radius: 15px;
+            box-sizing: border-box;
+            color: #3B3B3B;
+            cursor: pointer;
+            display: inline-block;
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: normal;
+            margin: 172px;
+            margin-top: 26px;
+            min-height: 40px;
+            min-width: 0;
+            outline: none;
+            text-align: center;
+            text-decoration: none;
+            transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            will-change: transform;
+        }
+
+        .gen_button:disabled {
+        pointer-events: none;
+        }
+
+        .gen_button:hover {
+        color: #fff;
+        background-color: #1A1A1A;
+        box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+        transform: translateY(-2px);
+        }
+
+        .gen_button:active {
+        box-shadow: none;
+        transform: translateY(0);
+        }
+        
+        .box_{
+            background-color: #1a1a1a22;
+            width: 50%;
+            margin: auto;
+            height: 290px;
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid black;
+        }
+        .next{
+            margin: auto;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            padding: 10px 25px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>    <form action="examdate" method="post">
+    {%csrf_token%}
+    <h1>Select Exam type</h1>
+    <div class="button">
+        <input type="radio"  id='IA1' class="bt1" name="exam" value="INTERNAL ASSESSMENT1 "><label for="IA1">INTERNAL ASSESSMENT 1</label>
+        <input type="radio"  id='IA2' class="bt1" name="exam" value="INTERNAL ASSESSMENT2 "><label for="IA2">INTERNAL ASSESSMENT 2</label>
+        <input type="radio"  id='model' class="bt1" name="exam" value="MODEL "><label for="model">MODEL</label>
+        <input type="radio"  id='sem' class="bt1" name="exam" value="SEMMESTER "><label for="sem">SEMMESTER</label>
+        <input type="radio"  id='skill' class="bt1" name="exam" value="SKILLRACK"><label for="sem">SKILLRACK</label>
+
+    </div>
+
+    <hr>
+    </hr>
+
+    <div class="box_">
+        <label for="examCount">Total Number of Exams:</label>
+        <input type="number" id="examCount" name="tot" min="1" value="1"><br>
+        <label for="examCount" class="dates__">Dates:</label>
+        <input type="text" id="datePicker"  name='date' placeholder="Select exam dates"><br>
+        <button id="generateCalendar" class="gen_button">Generate Calendar</button>
+
+        <div id="calendar"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    </div>
+    <button class="next">Next Step</button>
+</form>
+    <script>
+        const generateCalendarButton = document.getElementById('generateCalendar');
+        const calendarDiv = document.getElementById('calendar');
+        const examCountInput = document.getElementById('examCount');
+        const datePickerInput = document.getElementById('datePicker');
+
+        const datePicker = flatpickr(datePickerInput, {
+            mode: 'multiple',
+            dateFormat: 'Y-m-d',
+            minDate: 'today',
+        });
+
+        generateCalendarButton.addEventListener('click', generateCalendar);
+
+        function generateCalendar() {
+            const examCount = parseInt(examCountInput.value);
+            const selectedDates = datePicker.selectedDates;
+
+            if (isNaN(examCount) || examCount <= 0 || selectedDates.length === 0) {
+                alert('Please enter a valid number of exams and select exam dates.');
+                return;
+            }
+
+            if (selectedDates.length < examCount) {
+                alert(`You've selected ${selectedDates.length} date(s) but have ${examCount} exam(s). Please select enough dates.`);
+                return;
+            }
+
+            calendarDiv.innerHTML = ''; // Clear previous calendar
+
+            for (let i = 0; i < examCount; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = `${selectedDates[i].toLocaleDateString()}\nExam ${i + 1}`;
+
+                calendarDiv.appendChild(dayElement);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+1,Dr.Vasanth (Civil),Professor,CIVIL,M,GE3152
+2,Ms.M.Swathi (Civil),Professor,CIVIL,F,GE3151
+3,Mr.Murugalingam (Civil),Professor,CIVIL,M,CS3352
+4,Mr.Karthikeyan (Civil),Professor,CIVIL,M,ME1462
+5,Mrs.Poongothai (CSE),Professor,CSE,F,MA3151
+6,Mrs.Bhavani Ramesh (CSE),Professor,CSE,F,CE8492
+7,Mr.Deepak (CSE),Professor,CSE,M,CO1934
+8,Mrs.Sindu (CSE),Professor,CSE,F,CS3352
+9,Mrs.Papitha (CSE),Professor,CSE,F,FH1942
+10,Mr.Sampaul (CSE),Professor,CSE,M,CS3151
+11,Dr.Anbarasan (CSE),Professor,CSE,M,CS3262
+12,Mrs.Aswathi (CSE),Professor,CSE,F,CS3262
+13,Dr.Reginbose (CSE),Professor,CSE,M,CF3142
+14,Dr.Ravi (Mech),Professor,CSE,M,CD2812
+15,Dr.Sivakumar (CSE),Professor,CSE,M,FH1423
+16,Ms.Sabareeswari (CSE),Professor,CSE,F,XS7182
+17,Dr.Kandavel (CSE),Professor,CSE,M,AS5565
+18,Ms.Padma (CSE),Professor,CSE,F,AS4565
+19,Ms.Rajeshwari (CSE),Professor,CSE,F,AS4965
+20,Ms.Sabitha (CSE),Professor,CSE,F,AS4561
+21,Mrs.J.Poornima (EEE),Professor,EEE,F,HM1093
+22,Mrs.C.Sankari (EEE),Professor,EEE,F,HO1093
+23,Mr.Ezhilmaran (EEE),Professor,EEE,M,DD1823
+24,Dr.Aruldoss Adaikalam (EEE),Professor,EEE,M,CO1923
+25,Mr.Murali (Maths),Professor,EEE,M,MH1823
+26,Dr.Sankar (EEE),Professor,EEE,M,MO9912
+27,Ms.Manimozhi (ECE),Professor,ECE,F,FF8273
+28,Ms.Vijayasree P (ECE),Professor,ECE,F,JC7392
+29,Mr.Balachandar (ECE),Professor,ECE,M,NI9371
+30,Mr.Vinoth M (ECE),Professor,ECE,M,JD8291
+31,Ms.Shobika (ECE),Professor,ECE,F,MC6289
+32,Mr.Balasubramanian (ECE),Professor,ECE,M,MS9012
+33,Dr.Bommi (ECE),Professor,ECE,F,DM7282
+34,Mr.Vigneshkumar S (ECE),Professor,ECE,M,XH5292
+35,Ms.A.Swathi (ECE),Professor,ECE,F,CS7712
+36,Ms.Ashwani (ECE),Professor,ECE,F,FH9931
+37,Ms.Krishnakumari (ECE),Professor,ECE,F,JF8810
+38,Dr.Jai Jaganth Babu (ECE),Professor,ECE,M,JF8810
+39,Dr.S.Ravi (Mech),Professor,MECH,M,XG7729
+40,Dr.R.Ganesamoorthy (Mech),Professor,MECH,M,MS7091
+41,Dr.Jayabalakrishanan (Mech),Professor,MECH,M,CH9180
+42,Dr.R.Vijayan (Mech),Professor,MECH,M,CS8291
+43,Dr.S.Dhanesh Babu (Mech),Professor,MECH,M,CO8301
+44,Mr.B.Krishnakumar (Mech),Professor,MECH,M,MA8814
+45,Mr.Vinayamoorthy (Mech),Professor,MECH,M,GE3152
+46,Mr.A.Suresh (Mech),Professor,MECH,M,GE3151
+47,Mr.Balamurali P (Mech),Professor,MECH,M,CS3352
+48,Mr.C.Prakash (Mech),Professor,MECH,M,ME1462
+49,Mr.A.Parthipan (Mech),Professor,MECH,M,MA3151
+50,Dr.J.Rajaparthiban (Mech),Professor,MECH,M,CE8492
+51,Ms.Hepis Beula (Mech),Professor,MECH,F,CO1933
+52,Dr.M.Bhoopathi (Mech),Professor,MECH,M,CO1934
+53,Dr.B.Yogesh kumar (Mech),Professor,MECH,M,CO1934
+54,Mr.G K Kannan (Mech),Professor,MECH,M,CO1934
+55,Mr.K R Yuwaraj (Mech),Professor,MECH,M,CO1934
+56,Dr.Selvam (MCT),Professor,MCT,M,CS3352
+57,Dr.Selvamani (MCT),Professor,MCT,M,FH1942
+58,Dr.Maheswaran (MCT),Professor,MCT,M,DM8819
+59,Mr.Jaiganesh (MCT),Professor,MCT,M,FS3912
+60,Mr.P.Vinoth kumar (MCT),Professor,MCT,M,CS3151
+61,Mr.Vijay Ananth (MCT),Professor,MCT,M,CS3262
+62,Mr.P.S.Gokul (MCT),Professor,MCT,M,CF3142
+63,Mr.J.Lokesh kumar (MCT),Professor,MCT,M,CD2812
+64,M.M.Sasimekala (BME),Professor,BME,F,FH1423
+65,Ms.R. Ramya (BME),Professor,BME,F,FH1423
+66,Mr.K Pradeep (BME),Professor,BME,M,FH1421
+67,Ms.R.Darshini (BME),Professor,BME,F,FH1422
+68,Ms.Sura Shalini (BME),Professor,BME,F,FH1428
+69,Ms.Uma Haimavathi(BME),Professor,BME,F,FH1423
+70,Mr.Murali (IT),Professor,IT,M,XS7182
+71,Ms. Pavitra (IT),Professor,IT,F,ZH7281
+72,Mr.Sankar (IT),Professor,IT,M,HM1093
+73,Ms.Charanya (IT),Professor,IT,F,DD1823
+74,Ms.Gomathi (IT),Professor,IT,F,CO1923
+75,Mr.Marimuthu (IT),Professor,IT,M,MH1823
+76,Mr.Ravishankar (IT),Professor,IT,M,MO1823
+77,Dr.Veeramalai (AIDS),Professor,AIDS,M,MO9912
+78,Ms.Karthika (AIDS),Professor,AIDS,F,CU7213
+79,Dr.Babu (AIDS),Professor,AIDS,M,FF8273
+80,Ms.Lakkiya (AIDS),Professor,AIDS,F,NI9371
+81,Ms.Adithya (AIDS),Professor,AIDS,F,NI9371
+82,Mr.Chandrasekhar (AIDS),Professor,AIDS,M,NS8391
+83,Ms.Hemalatha (AIDS),Professor,AIDS,F,JD8291
+84,Mr.Pratham (AIDS),Professor,AIDS,M,DU6228
+85,Ms.Jaazieliah (AIDS),Professor,AIDS,F,MC6289
+86,Dr.Muthusundar (AIDS),Professor,AIDS,M,MS9012
+87,Dr.Nithya Baskaran (AIDS),Professor,AIDS,F,DM7282
+88,Ms.S.T.Preethi (CSBS),Professor,CSBS,F,MS2713
+89,Mrs.G.Saranya (CSBS),Professor,CSBS,F,XH7301
+90,Dr.N.Kirubakaran (CSBS),Professor,CSBS,M,XH5292
+91,Mr.Premraj (CSBS),Professor,CSBS,M,XH8292
+92,Ms.D.Princy Priscilla (CSBS),Professor,CSBS,F,XG7729

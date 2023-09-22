@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Rooms</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <script>
+        $(document).ready(function(){
+            $("#roomInput").select2({
+                placeholder:'select rooms',
+            })
+        })
+        $(document).ready(function(){
+            $("#singlestaff").select2({
+                placeholder:'select rooms',
+            })
+        })
+        $(document).ready(function(){
+            $("#girlroom").select2({
+                placeholder:'select rooms',
+            })
+        })
+        </script>
+    <style>
+        html,body{
+            padding: 0;
+            font-family: 'Poppins';
+            font-weight: 300;
+        }
+        .container{
+            display: flex;
+            width: 100vw;
+            row-gap: 10px;
+            height: 90vh;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .main_text{
+            display: flex;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .box{
+            max-width: 40%;
+            display: flex;
+            flex-direction: column;
+            row-gap: 25px;
+            margin: 0 auto;
+        }
+        .box div{
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+        .box input{
+            width: 150px;
+        }
+        .bb{
+            display: flex;
+            text-align: center;
+            justify-content: space-around;
+        }
+        .bb input{
+            width: 250px;
+        }
+        
+        .Box{
+            margin: 0 25px;
+            margin: 0 auto;
+            width: 90%;
+            background-color: rgba(0, 0, 0, 0.158);
+            height: 100%;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        select{
+            height: auto;
+            width: 250px;
+        }
+        .text__box{
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-basis: 50%;
+            justify-content: space-evenly;
+        }
+        .sell__box{
+            display: flex;
+            flex-direction: column;
+            flex-basis: 50%;
+        }
+        .sell__box div{
+            margin: 20px 20px;
+        }
+    </style>
+</head>
+<body>
+    <section class="container">
+        <div>
+            <h1 class="main_text">Select Staffs</h1>
+            <hr style="margin-bottom: 20px;">
+            <div class="hero">
+                <div class="box">
+                    <div>
+                        <label for="roomcount" class="font1">Total Number of rooms:</label>
+                        <input type="number" id="examCount" min="1" value="1">
+                    </div>
+                    <div>
+                        <label for="staffcount" class="font2">Total Number of staffs:</label>
+                        <input type="number" id="examCount" min="1" value="1">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Box">
+
+            <div class="text__box" style="border-right: 1px solid black;">
+                <form action="/roomselect" method="post">
+                {%csrf_token%}
+                    <div class="box1 bb">
+                    <label for="roomInput" class="Name__">All the rooms:</label>
+                    <select id="roomInput" multiple name="roomInput">
+                        {%for i in rooms%}
+                        <option value="{{i.roomno}}">{{i.roomno}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="box2 bb">
+                    <label for="singlestaff" class="Name__">Single Staffs:</label>
+                
+                    <select id="singlestaff" name="singlestaff" multiple>
+                        {%for i in rooms%}
+                        <option value="{{i.roomno}}">{{i.roomno}}</option>
+                        {%endfor%}
+                    </select></div>
+                <div class="box3 bb">
+                    <label for="girlroom" class="Name__">Girls Room:</label>
+                
+                    <select id="girlroom"name="girlroom" multiple>
+                        {%for i in rooms%}
+                        <option value="{{i.roomno}}">{{i.roomno}}</option>
+                        {%endfor%}
+                    </select></div>
+                    <button>hello</button>
+                </form>
+            </div>
+
+            <div class="sell__box">
+
+                <div id="selectedRooms">
+                </div>
+                <div id="selectedSingleRooms">
+                </div>
+                <div id="selectedGirlRooms">
+                </div>
+
+            </div>
+
+        </div>
+        
+    </section>
+    <script>
+        var selectedRooms = [];
+        var selectedSingleRooms = [];
+        var selectedGirlRooms = [];
+
+        function selectRooms() {
+            var roomInput = document.getElementById("roomInput").value;
+            var roomsToAdd = roomInput.split(",").map(room => room.trim());
+            
+            roomsToAdd.forEach(room => {
+                if (!selectedRooms.includes(room)) {
+                    selectedRooms.push(room);
+                    updateRoomsDisplay();
+                }
+            });
+
+            updateTextField();
+        }
+
+        function updateRoomsDisplay() {
+            var selectedRoomsDiv = document.getElementById("selectedRooms");
+            selectedRoomsDiv.innerHTML = "<h3>Selected Rooms:</h3>";
+
+            selectedRooms.forEach(room => {
+                var roomButton = document.createElement("button");
+                roomButton.textContent = room;
+                roomButton.className = "selected-room";
+                roomButton.onclick = function() {
+                    selectedRooms = selectedRooms.filter(selectedRoom => selectedRoom !== room);
+                    updateRoomsDisplay();
+                    updateTextField();
+                };
+                selectedRoomsDiv.appendChild(roomButton);
+            });
+        }
+
+        function updateTextField() {
+            var roomInput = document.getElementById("roomInput");
+            roomInput.value = selectedRooms.join(", ");
+        }
+
+        function addSingleStaff() {
+            var singleInput = document.getElementById("singleInput").value;
+            var staffsToAdd = singleInput.split(",").map(staff => staff.trim());
+            
+            staffsToAdd.forEach(staff => {
+                if (!selectedSingleRooms.includes(staff)) {
+                    selectedSingleRooms.push(staff);
+                    updateSingleRoomsDisplay();
+                }
+            });
+
+            updateSingleInput();
+        }
+
+        function updateSingleRoomsDisplay() {
+            var selectedSingleRoomsDiv = document.getElementById("selectedSingleRooms");
+            selectedSingleRoomsDiv.innerHTML = "<h3>Selected Single Staffs:</h3>";
+
+            selectedSingleRooms.forEach(staff => {
+                var staffButton = document.createElement("button");
+                staffButton.textContent = staff;
+                staffButton.className = "selected-room";
+                staffButton.onclick = function() {
+                    selectedSingleRooms = selectedSingleRooms.filter(selectedStaff => selectedStaff !== staff);
+                    updateSingleRoomsDisplay();
+                    updateSingleInput();
+                };
+                selectedSingleRoomsDiv.appendChild(staffButton);
+            });
+        }
+
+        function updateSingleInput() {
+            var singleInput = document.getElementById("singleInput");
+            singleInput.value = selectedSingleRooms.join(", ");
+        }
+
+        function addGirlRoom() {
+            var girlInput = document.getElementById("girlInput").value;
+            var roomsToAdd = girlInput.split(",").map(room => room.trim());
+            
+            roomsToAdd.forEach(room => {
+                if (!selectedGirlRooms.includes(room)) {
+                    selectedGirlRooms.push(room);
+                    updateGirlRoomsDisplay();
+                }
+            });
+
+            updateGirlInput();
+        }
+
+        function updateGirlRoomsDisplay() {
+            var selectedGirlRoomsDiv = document.getElementById("selectedGirlRooms");
+            selectedGirlRoomsDiv.innerHTML = "<h3>Selected Girls' Rooms:</h3>";
+
+            selectedGirlRooms.forEach(room => {
+                var roomButton = document.createElement("button");
+                roomButton.textContent = room;
+                roomButton.className = "selected-room";
+                roomButton.onclick = function() {
+                    selectedGirlRooms = selectedGirlRooms.filter(selectedRoom => selectedRoom !== room);
+                    updateGirlRoomsDisplay();
+                    updateGirlInput();
+                };
+                selectedGirlRoomsDiv.appendChild(roomButton);
+            });
+        }
+
+        function updateGirlInput() {
+            var girlInput = document.getElementById("girlInput");
+            girlInput.value = selectedGirlRooms.join(", ");
+        }
+    </script>
+</body>
+</html>

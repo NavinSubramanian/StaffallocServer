@@ -11,9 +11,8 @@ from PyPDF2 import PdfMerger
 
 
 # Left shift function to cause no problem
-def superlogic(date,rooms,single,girls,mselected_faculty,fselected_faculty):
+def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_faculty):
     day_list = []
-    girlss=girls
     print(girls)
 
     def leftshift(invigilators):
@@ -31,7 +30,7 @@ def superlogic(date,rooms,single,girls,mselected_faculty,fselected_faculty):
 
     # Start of Main function
 
-    def generateResult(roomsPerDay):
+    def generateResult(roomsPerDay,girls):
         staffIndex = 0
         dates_number = 0
         girl = 0
@@ -55,7 +54,7 @@ def superlogic(date,rooms,single,girls,mselected_faculty,fselected_faculty):
             singles = single 
             girls_rooms={}
             '''Boys rooms dictionary'''
-            for i in girlss:
+            for i in girls:
                 girls_rooms[i]=[]
             girls=set(girls)
             allr=set(rooms)
@@ -229,9 +228,7 @@ def superlogic(date,rooms,single,girls,mselected_faculty,fselected_faculty):
             header = document.add_table(rows=2, cols=1)
             header.style = 'Table Grid'
             hdr_cells = header.rows[0].cells
-            hdr_cells[0].text = '''
-            INTERNAL ASSESSMENT I
-            '''
+            hdr_cells[0].text = exam
             hdr_cells[0].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
             hdr_cells[0].paragraphs[0].runs[0].font.size = Cm(0.6)
             hdr_cells[0].paragraphs[0].runs[0].font.bold = True
@@ -351,8 +348,8 @@ def superlogic(date,rooms,single,girls,mselected_faculty,fselected_faculty):
             merger.append(pdf)
         merger.write("merged_days.pdf")
 
-        for pdf in day_list:
-            os.remove(pdf)
+        # for pdf in day_list:
+        #     os.remove(pdf)
 
 
 
@@ -516,9 +513,9 @@ def superlogic(date,rooms,single,girls,mselected_faculty,fselected_faculty):
     random.shuffle(invigilators)
 
     # Rooms needed each day (can be extended)
-    roomsPerDay = [3,3]   
+    roomsPerDay = [len(rooms) for i in range(tot)]   
 
-    generateResult(roomsPerDay)
+    generateResult(roomsPerDay,girls)
 
 # for pdf in day_list:
 #      os.remove(pdf)

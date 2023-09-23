@@ -11,5 +11,7 @@ urlpatterns=[
     path('rooms/',views.rooms),
     path('rooms/',views.rooms),
     path('roomselect',views.roomselect),
-    path('examdate',views.examdate),
+    path('examdate',views.examdate), 
+    path('download/', views.download_file, name='download_file'),
+    path('download-multiple/', views.download_multiple_files, name='download_multiple_files'),
 ]

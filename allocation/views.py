@@ -11,30 +11,19 @@ import zipfile
 import os
 
 def download_multiple_files(request):
-    # Create a temporary directory to store the files to be zipped
-    with tempfile.TemporaryDirectory() as temp_dir:
-        # List of file paths you want to include in the ZIP archive
-        file_paths = ['Invigilator_Shedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
-
-        # Create the ZIP file
-        zip_filename = os.path.join(temp_dir, 'files.zip')
-        with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
-            for file_path in file_paths:
-                # Add each file to the ZIP archive
-                zipf.write(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_path), os.path.basename(file_path))
-
-        # Create an HttpResponse with the ZIP file
-        with open(zip_filename, 'rb') as zip_file:
-            response = HttpResponse(zip_file.read(), content_type='application/zip')
-            response['Content-Disposition'] = 'attachment; filename="files.zip"'
-
-    return response
-def download_file(request):
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'merged_days.pdf')  # Adjust the file path as needed
-    response = FileResponse(open(file_path, 'rb'))
-    response['Content-Disposition'] = 'attachment; filename="merged_days.pdf"'  # Adjust the filename as needed
-    return response
-
+    try:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_paths = ['Invigilator_Shedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
+            zip_filename = os.path.join(temp_dir, 'files.zip')
+            with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                for file_path in file_paths:
+                    zipf.write(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_path), os.path.basename(file_path))
+            with open(zip_filename, 'rb') as zip_file:
+                response = HttpResponse(zip_file.read(), content_type='application/zip')
+                response['Content-Disposition'] = 'attachment; filename="files.zip"'
+        return response
+    except:
+        return d(request)
 user=''
 date=[]
 tot=0
@@ -131,18 +120,20 @@ def roomselect(request):
     pass
 
 def examdate(request):
-    global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl
-    date=request.POST['date'].split()
-    exam=request.POST['exam']
-    tot=int(request.POST['tot'])
-    print('views')
-    print(date,exam,tot,mselected_staff,fselected_staff,single,girl,rooms)
-    print('aftre')
-    superlogic(date,exam,rooms,tot,single,girl,mselected_staff,fselected_staff)
+    try:
+        global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl
+        date=request.POST['date'].split()
+        exam=request.POST['exam']
+        tot=int(request.POST['tot'])
+        print('views')
+        print(date,exam,tot,mselected_staff,fselected_staff,single,girl,rooms)
+        print('aftre')
+        superlogic(date,exam,rooms,tot,single,girl,mselected_staff,fselected_staff)
+        return render(request,'download.html')
+    except Exception as E:
+        print(E)
+        print(date,exam,tot,mselected_staff,fselected_staff,single,girl,rooms)
+        return render(request,'examtype.html')
+    
+def d(request):
     return render(request,'download.html')
-
-def download_file(request):
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'merged_days.pdf')  # Adjust the file path as needed
-    response = FileResponse(open(file_path, 'rb'))
-    response['Content-Disposition'] = 'attachment; filename="merged_days.pdf"'  # Adjust the filename as needed
-    return response

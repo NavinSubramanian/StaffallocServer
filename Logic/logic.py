@@ -19,8 +19,10 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
         shift=3
         for a in range(shift):
             temp=invigilators[0]
-            for b in range(len(invigilators)-1):
-                invigilators[b]=invigilators[b+1]
+            b=0
+            for b1 in range(len(invigilators)-1):
+                invigilators[b1]=invigilators[b1+1]
+                b=b1
             invigilators[b]=temp
         return invigilators
 

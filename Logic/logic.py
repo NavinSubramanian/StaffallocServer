@@ -215,251 +215,194 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
                             l+=1
 
                 '''
+            from reportlab.lib.pagesizes import letter
+            from reportlab.platypus import SimpleDocTemplate, Table, TableStyle,Spacer
+            from reportlab.lib import colors
+            from reportlab.lib.units import inch,cm
+            from reportlab.lib.styles import getSampleStyleSheet
 
-            document = Document()
+            doc = SimpleDocTemplate(f"Day_{j+1}_Room_Allocation.pdf", pagesize=letter)
+
+            elements = []
+
+            header_data = [
+                [f"{exam}\n"],
+                [f"Exam duty list                                    Date={dates[dates_number]}\n"],
+            ]
+            header_table = Table(header_data, colWidths=6.9*inch, rowHeights=1.3 * cm)
+            header_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
+                ('BACKGROUND', (0, 1), (-1, 1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                ('FONTSIZE', (0, 0), (-1, -1), 15),
+            ]))
+            data = [
+                ["Hall","Faculty","Time","Signature"]
+            ]
+            for keyg,itemg in girls_roomAllocation.items():
+                if len(itemg) == 1:
+                    data.append([f"{keyg}",f"{itemg[0]}",'',''])
+                if len(itemg) == 2:
+                    data.append([f"{keyg}",f"{itemg[0]}\n\n{itemg[1]}",'',''])
+            for keyb,itemb in boys_roomAllocation.items():
+                if len(itemb) == 1:
+                    data.append([f"{keyb}",f"{itemb[0]}",'',''])
+                if len(itemb) == 2:
+                    data.append([f"{keyb}",f"{itemb[0]}\n\n{itemb[1]}",'',''])
             
-            # logo_path = 'CITL.png'
-            # top_path = 'Top.png'
+            style = TableStyle([
+                # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                # ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                ('FONTSIZE', (0, 0), (-1, -1), 12),
+            ])
+            # print(data)
+            table = Table(data,colWidths=[0.8*inch,3*inch,1.4*inch,1.7*inch],rowHeights=0.6*inch)
+            table.setStyle(style)
 
-            # paragraph = document.add_paragraph()
-            # run = paragraph.add_run()
-            # run.add_picture(logo_path,width=Cm(10))
-            # run_2 = paragraph.add_run()
-            # run_2.add_picture(top_path,width=Cm(5))
+            # Add the table to the list of elements
+            elements.append(header_table) 
+            elements.append(table)
             
-            header = document.add_table(rows=2, cols=1)
-            header.style = 'Table Grid'
-            hdr_cells = header.rows[0].cells
-            hdr_cells[0].text = exam
-            hdr_cells[0].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-            hdr_cells[0].paragraphs[0].runs[0].font.size = Cm(0.6)
-            hdr_cells[0].paragraphs[0].runs[0].font.bold = True
-            hdr_cells = header.rows[1].cells
-            hdr_cells[0].text = f'\n       Exam duty list           Date={dates[dates_number]}\n'
-            hdr_cells[0].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-            hdr_cells[0].paragraphs[0].runs[0].font.size = Cm(0.4)
-            hdr_cells[0].paragraphs[0].runs[0].font.bold = True
-
-            
-            dates_number+=1
-            
-            table = document.add_table(rows=1, cols=4)
-            table.style = 'Table Grid'
-
-            for cell in table.columns[0].cells:
-                cell.width = Cm(1)
-            for cell in table.columns[1].cells:
-                cell.width = Cm(8)
-            for cell in table.columns[2].cells:
-                cell.width = Cm(6)
-            for cell in table.columns[3].cells:
-                cell.width = Cm(6)
-            
-            hdr_cells = table.rows[0].cells
-            hdr_cells[0].text = '\nHall\n'
-            hdr_cells[1].text = '\nName of the Faculty\n'
-            hdr_cells[2].text = '\nTime\n'
-            hdr_cells[3].text = '\nSignature\n'
-            hdr_cells[0].paragraphs[0].runs[0].font.bold = True
-            hdr_cells[0].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-            hdr_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
-            hdr_cells[1].paragraphs[0].runs[0].font.bold = True
-            hdr_cells[1].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-            hdr_cells[1].paragraphs[0].runs[0].font.name = 'Arial'
-            hdr_cells[2].paragraphs[0].runs[0].font.bold = True
-            hdr_cells[2].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-            hdr_cells[2].paragraphs[0].runs[0].font.name = 'Arial'
-            hdr_cells[3].paragraphs[0].runs[0].font.bold = True
-            hdr_cells[3].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-            hdr_cells[3].paragraphs[0].runs[0].font.name = 'Arial'
-
-
-
-            temp_cell = 0
-
-            #for girls
-            for room, staffs in girls_roomAllocation.items():
-                if room in singles:
-                    row_cells = table.add_row().cells
-                    row_cells[0].text = f'\n{room}\n'
-                    for i in staffs:
-                        row_cells[1].text = f'\n{i}\n'
-                    row_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
-                    row_cells[1].paragraphs[0].runs[0].font.name = 'Arial'
-
-                else:
-                    row_cells = table.add_row().cells
-                    row_cells[0].text = f'\n{room}\n'
-                    row_cells[1].text = '\n'.join(staffs)
-
-                    '''
-                    internal = document.add_table(rows=2, cols=4)
-                    internal.style = 'Table Grid'
-                    row_cells = internal.add_row().cells
-                    row_cells[0].text = f'\n{staffs[0]}'
-                    hdr_cells[1].text = f'\n{staffs[1]}'
-                    '''
-
-
-
-
-
-            
-            #for boys
-            for room, staffs in boys_roomAllocation.items():
-                if room in singles:
-                    row_cells = table.add_row().cells
-                    row_cells[0].text = f'\n{room}\n'
-                    for i in staffs:
-                        row_cells[1].text = f'\n{i}\n'
-                    row_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
-                    row_cells[1].paragraphs[0].runs[0].font.name = 'Arial'
-
-                else:
-                    row_cells = table.add_row().cells
-                    row_cells[0].text = f'\n{room}\n'
-                    row_cells[1].text = '\n'.join(staffs)
-                    row_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
-                    row_cells[1].paragraphs[0].runs[0].font.name = 'Arial'
-
-
-            '''
-
-            Squad members table
-
-            squad = document.add_table(rows=4, cols=4)
-            squad.style = 'Table Grid'
-            
-            hdr_cells = squad.rows[0].cells
-            hdr_cells[0].text = 'Hall'
-            hdr_cells[1].text = 'Name of the Faculty'
-            hdr_cells[2].text = 'Time'
-            hdr_cells[3].text = 'Signature'
-
-            '''
-            
-            document.save(f"Day_{j+1}_Room_Allocation.docx")
-            docx2pdf.convert(f"Day_{j+1}_Room_Allocation.docx")
-            os.remove(f"Day_{j+1}_Room_Allocation.docx")
+            # Build the PDF document
+            doc.build(elements)
 
             day_list.append(f"Day_{j+1}_Room_Allocation.pdf")
+
+            dates_number += 1
         
+
+        # Out of the loop
+
+        '''Merger'''
 
         merger = PdfMerger()
         for pdf in day_list:
             merger.append(pdf)
         merger.write("merged_days.pdf")
 
-        # for pdf in day_list:
-        #     os.remove(pdf)
+        '''Work Schedule'''
+
+        doc = SimpleDocTemplate(f"Invigilator_Work_Schedule.pdf", pagesize=letter)
+
+        elements = []
+
+        header_data = [
+                ["Office of the Controller of Examination\n"],
+                [f"{exam} 2023-DUTY LIST\n"],
+            ]
+        header_table = Table(header_data, colWidths=6.9*inch, rowHeights=1.3 * cm)
+        header_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
+            ('BACKGROUND', (0, 1), (-1, 1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('FONTSIZE', (0, 0), (-1, -1), 15),
+        ]))
 
 
-
+        data = [
+            ["Staff Name"]
+        ]
+        datapos=1
+        for jk in dates:
+            data[0].append(jk)
+        for name,dutylist in work.items():
+            data.append([f"{name}"])
+            for dayets,rum in dutylist.items():
+                data[datapos].append(rum)
+            datapos += 1
         
-        document = Document()
-
-        # logo_path = 'CITL.png'
-        # top_path = 'Top.png'
-
-        # paragraph = document.add_paragraph()
-        # run = paragraph.add_run()
-        # run.add_picture(logo_path,width=Cm(10))
-        # run_2 = paragraph.add_run()
-        # run_2.add_picture(top_path,width=Cm(5))
-
-        table = document.add_table(rows=1, cols=2)
-        table.style = 'Table Grid'
-        hdr_cells = table.rows[0].cells
-        hdr_cells[0].text = '\nStaff Name\n'
-        hdr_cells[1].text = '\nWork Count\n'
-        hdr_cells[0].paragraphs[0].runs[0].font.bold = True
-        hdr_cells[0].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-        hdr_cells[0].paragraphs[0].runs[0].font.size = Cm(0.4)
-        hdr_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
-        hdr_cells[1].paragraphs[0].runs[0].font.bold = True
-        hdr_cells[1].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-        hdr_cells[1].paragraphs[0].runs[0].font.size = Cm(0.4)
-        hdr_cells[1].paragraphs[0].runs[0].font.name = 'Arial'
-
-
-
-        for staff, count in Invigilator_work_count.items():
-            row_cells = table.add_row().cells
-            row_cells[0].text = f'\n{staff}\n'
-            row_cells[1].text = f'\n{str(count)}\n'
-            row_cells[1].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-            row_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
-            row_cells[1].paragraphs[0].runs[0].font.name = 'Arial'
-
-        document.save("Invigilator_Work_Count.docx")
-        docx2pdf.convert("Invigilator_Work_Count.docx")
-        os.remove("Invigilator_Work_Count.docx")
-
-        document = Document()
-
-        # logo_path = 'CITL.png'
-        # top_path = 'Top.png'
-
-        # paragraph = document.add_paragraph()
-        # run = paragraph.add_run()
-        # run.add_picture(logo_path,width=Cm(10))
-        # run_2 = paragraph.add_run()
-        # run_2.add_picture(top_path,width=Cm(5))
         
-        header = document.add_table(rows=2, cols=1)
-        header.style = 'Table Grid'
-        hdr_cells = header.rows[0].cells
-        hdr_cells[0].text = '''
-        Office of the Controller of Examination
-        '''
-        hdr_cells[0].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-        hdr_cells[0].paragraphs[0].runs[0].font.size = Cm(0.4)
-        hdr_cells[0].paragraphs[0].runs[0].font.bold = True
-        hdr_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
-        hdr_cells = header.rows[1].cells
-        hdr_cells[0].text = '''
-        Internal Assessment I AUGUST-2023-DUTY LIST
-        '''
-        hdr_cells[0].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-        hdr_cells[0].paragraphs[0].runs[0].font.size = Cm(0.4)
-        hdr_cells[0].paragraphs[0].runs[0].font.bold = True
-        hdr_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
+        style = TableStyle([
+            # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            # ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('FONTSIZE', (0, 0), (-1, -1), 12),
+        ])
+        table = Table(data,rowHeights=0.6*inch)
+        table.setStyle(style)
 
-
-        table = document.add_table(rows=1, cols=len(dates)+1)
-        for m in range(len(dates)+1):
-            for cell in table.columns[m].cells:
-                cell.width = Inches(6)
+        # Add the table to the list of elements
+        elements.append(header_table) 
+        elements.append(Spacer(1, 0.1 * letter[1]))
+        elements.append(table)
         
-        table.style = 'Table Grid'
-        hdr_cells = table.rows[0].cells
-        hdr_cells[0].text = '\nStaff Name\n'
-        hdr_cells[0].paragraphs[0].runs[0].font.bold = True
-        hdr_cells[0].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-        hdr_cells[0].paragraphs[0].runs[0].font.size = Cm(0.4)
-        hdr_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
+        # Build the PDF document
+        doc.build(elements)
 
-        for a in range(len(dates)):
-            hdr_cells[a+1].text = f'\n{dates[a]}\n'
-            hdr_cells[a+1].paragraphs[0].runs[0].font.bold = True
-            hdr_cells[a+1].paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-            hdr_cells[a+1].paragraphs[0].runs[0].font.size = Cm(0.4)
-            hdr_cells[a+1].paragraphs[0].runs[0].font.name = 'Arial'
 
-        for staff, days in work.items():
-            row_cells = table.add_row().cells
-            row_cells[0].text = staff
-            row_cells[0].paragraphs[0].runs[0].font.name = 'Arial'
 
-            col=1
-            for a in days.values():
-                row_cells[col].text = a
-                col+=1
+        '''Work Count'''
 
-        # print(work)
-        document.save("Invigilator_Shedule.docx")
-        docx2pdf.convert("Invigilator_Shedule.docx")
-        os.remove("Invigilator_Shedule.docx")
+        doc = SimpleDocTemplate(f"Invigilator_Work_Count.pdf", pagesize=letter)
+
+        elements = []
+
+        header_data = [
+                ["Office of the Controller of Examination\n"],
+                [f"{exam} 2023-DUTY Count\n"],
+            ]
+        header_table = Table(header_data, colWidths=6.9*inch, rowHeights=1.3 * cm)
+        header_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
+            ('BACKGROUND', (0, 1), (-1, 1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('FONTSIZE', (0, 0), (-1, -1), 15),
+        ]))
+
+        data =[
+            ["Name","Count"]
+        ]
+
+        for keys,value in Invigilator_work_count.items():
+            data.append([f"{keys}",f"{value}"])
+
+        style = TableStyle([
+            # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            # ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('FONTSIZE', (0, 0), (-1, -1), 12),
+        ])
+        # print(data)
+        table = Table(data,colWidths=[3.6*inch,3.3*inch],rowHeights=0.6*inch)
+        table.setStyle(style)
+
+        # Add the table to the list of elements
+        elements.append(header_table) 
+        elements.append(table)
+        
+        # Build the PDF document
+        doc.build(elements)
 
 
 

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .container {
+            width: 800px; 
+            margin: 0 auto;  
+        }
+        .split {
+            height: 100%;
+            width: 50%;
+            display: inline-block; 
+            vertical-align: top;
+            overflow-x: hidden;
+            padding-top: 30px;
+        }
+        .left {
+            text-align: right;
+            float: left;
+        }
+        .right {
+            text-align: left;
+            float: right;
+        }
+        .centered {
+            text-align: center;
+        }
+        form {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 55px;
+            margin: 30px auto;
+            width: 300px;
+            border-radius: 5px;
+            padding-right: 80px;
+        }
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 5px 0;
+            justify-content: left;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: 100px 50px;
+        }
+        button {
+            background-color:rgb(0, 106, 255);
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #4595a0;
+        }
+        h2{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .gender-dropdown {
+        position: relative;
+        display: inline-block;
+        }
+
+        .gender-dropdown input[type="text"] {
+            cursor: pointer;
+        }
+
+        .gender-options {
+            position: absolute;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            z-index: 1;
+        }
+
+        .gender-options li {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Del Staff</title>
+</head>
+<body>
+    <div class="split left">
+        <div class="centered">
+            <h2>Insert Staff</h2>
+            <form action="addititon" method="post">
+                <label for="courtesyTitle">Courtesy Title:</label>
+                <select id="courtesyTitle" name="courtesyTitle">
+                    <option value="Mr.">Mr.</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Dr.">Dr.</option>
+                </select><br>
+    
+                <label for="username">Staff Name :</label>
+                <input type="text" id="username" name="username"><br>
+                <label for="password">Department :</label>
+                <input type="text" id="username" name="dept"><br>
+                <label for="username">Gender:</label>
+                <div class="gender-dropdown">
+                    <input type="text" id="genderInput" name="gender" readonly>
+                    <ul class="gender-options">
+                        <li data-value="M">M</li>
+                        <li data-value="F">F</li>
+                    </ul>
+                </div><br><br>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="split right">
+        <div class="centered">
+            <h2>Delete Staff</h2>
+            <form>
+                <label for="courtesyTitle">Courtesy Title:</label>
+                <select id="courtesyTitle" name="courtesyTitle">
+                    <option value="Mr.">Mr.</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Dr.">Dr.</option>
+                </select><br>
+                <label for="username">Staff Name :</label>
+                <input type="text" id="username" name="username"><br>
+                <label for="password">Department :</label>
+                <input type="text" id="username" name="username"><br>
+                <label for="username">Gender:</label>
+                <div class="gender-dropdown">
+                    <input type="text" id="genderInput" name="gender" readonly>
+                    <ul class="gender-options">
+                        <li data-value="M">M</li>
+                        <li data-value="F">F</li>
+                    </ul>
+                </div><br><br>
+                <button type="submit" formaction="staff.html">Delete</button>
+            </form>
+        </div>
+    </div>
+<script>
+    const genderInput = document.getElementById("genderInput");
+    const genderOptions = document.querySelector(".gender-options");
+
+    genderInput.addEventListener("click", () => {
+        genderOptions.style.display = genderOptions.style.display === "block" ? "none" : "block";
+    });
+
+    genderOptions.addEventListener("click", (e) => {
+        if (e.target.nodeName === "LI") {
+            genderInput.value = e.target.textContent;
+            genderOptions.style.display = "none";
+        }
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!genderOptions.contains(e.target) && e.target !== genderInput) {
+            genderOptions.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>

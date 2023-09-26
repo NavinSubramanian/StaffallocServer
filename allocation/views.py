@@ -13,14 +13,16 @@ import os
 def download_multiple_files(request):
     try:
         with tempfile.TemporaryDirectory() as temp_dir:
-            file_paths = ['Invigilator_Shedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
+            file_paths = ['Invigilator_Work_Schedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
             zip_filename = os.path.join(temp_dir, 'files.zip')
             with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
                 for file_path in file_paths:
+                    print(file_path)
                     zipf.write(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_path), os.path.basename(file_path))
             with open(zip_filename, 'rb') as zip_file:
                 response = HttpResponse(zip_file.read(), content_type='application/zip')
                 response['Content-Disposition'] = 'attachment; filename="files.zip"'
+        print('end')
         return response
     except:
         return d(request)
@@ -55,8 +57,8 @@ def logins(request):
     password=request.POST['password']
     names=Users.objects.filter(name=name).values()
     if (names[0]['name']=='admin4' and names[0]['password']==password):
-        staff1=Staff.objects.exclude(Q(name__in=mselected_staff)&Q(name__in=fselected_staff)&Q(gender='M')).values()
-        staff2=Staff.objects.exclude(Q(name__in=mselected_staff)&Q(name__in=fselected_staff)&Q(gender='F')).values()
+        staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)&Q(gender='M')).values()
+        staff2=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)&Q(gender='F')).values()
         user='all'
         print(staff1,staff2)
         return render(request,"staff.html",{'mstaff':staff2,'fstaff':staff1})
@@ -116,12 +118,12 @@ def roomselect(request):
     single=request.POST.getlist('singlestaff')
     girl=request.POST.getlist('girlroom')
     print(rooms,single,girl)
-    return render(request,'examtype.html')
+    return render(request,'examtype2.html')
     pass
 
 def examdate(request):
     try:
-        global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl
+        global user,date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl
         date=request.POST['date'].split()
         exam=request.POST['exam']
         tot=int(request.POST['tot'])
@@ -129,11 +131,32 @@ def examdate(request):
         print(date,exam,tot,mselected_staff,fselected_staff,single,girl,rooms)
         print('aftre')
         superlogic(date,exam,rooms,tot,single,girl,mselected_staff,fselected_staff)
-        return render(request,'download.html')
     except Exception as E:
         print(E)
         print(date,exam,tot,mselected_staff,fselected_staff,single,girl,rooms)
-        return render(request,'examtype.html')
+        return render(request,'examtype2.html')
+    user=''
+    date=[]
+    tot=0
+    exam=''
+    mselected_staff=[]
+    fselected_staff=[]
+    rooms=[]
+    single=[]
+    girl=[]
+    return render(request,'download.html')
+
     
 def d(request):
     return render(request,'download.html')
+
+def staffed(request):
+    return render(request,'EditStaff.html')
+
+def addition(request):
+    title=request.POST['courtesyTitle']
+    name=request.POST['username']
+    gender=request.POST['genderInput']
+    deopt=request.POST['dept']
+    names=title+name
+    User=Users.objects.create(name=names,)

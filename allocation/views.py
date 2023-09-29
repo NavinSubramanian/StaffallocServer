@@ -34,7 +34,7 @@ def download_multiple_files(request):
         single=[]
         girl=[]
         with tempfile.TemporaryDirectory() as temp_dir:
-            file_paths = ['Invigilator_Shedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
+            file_paths = ['Invigilator_Work_Schedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
             zip_filename = os.path.join(temp_dir, 'files.zip')
             with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
                 for file_path in file_paths:

@@ -15,19 +15,24 @@
             font-family: 'Poppins';
             font-weight: 300;
         }
+
         #calendar {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 5px;
             row-gap: 20px;
-            max-width: 300px;
-            margin-top: -130px;
+            width: 100%;
             column-gap: 50px;
+            margin-top: 20px;
         }
 
+        @media screen and (max-width:1350px) {
+            
+        }
         .calendar-day {
             border: 2px solid #000000a6;
             padding: 5px;
+            background-color: rgba(255, 255, 255, 0.416);
             text-align: center;
             cursor: pointer;
             transition: 1s;
@@ -76,16 +81,12 @@
         input[type="number"]{
             height: 25px;
             width: 90px;
-            margin-left: 10px;
             margin-bottom: 30px;
         }
-        .dates__{
-            margin-left: 135px;
-        }
+
         input[type="text"]{
             height: 25px;
-            width: 500px;
-            margin-left: 10px;
+            width: 60%;
             margin-bottom: 30px;
         }
         .gen_button {
@@ -97,13 +98,14 @@
             color: #3B3B3B;
             cursor: pointer;
             display: inline-block;
+            margin: 0 auto;
             font-family: monospace;
             font-size: 16px;
             font-weight: 600;
             line-height: normal;
-            margin: 172px;
             margin-top: 20px;
             min-height: 40px;
+            width: 150px;
             min-width: 0;
             outline: none;
             text-align: center;
@@ -135,8 +137,12 @@
             background-color: #1a1a1a22;
             width: 60%;
             margin: auto;
-            height: 300px;
+            height: auto;
             border-radius: 10px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
             padding: 10px;
             border: 1px solid black;
         }
@@ -148,6 +154,7 @@
             padding: 10px 25px;
             border-radius: 10px;
             font-size: medium;
+            cursor: pointer;
         }
         .next:hover{
             background-color: black;
@@ -155,8 +162,13 @@
         }
         .button {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-evenly;
-        align-items: center;
+        row-gap: 20px;
+        }
+        .button input{
+            flex-grow: 1;
+            flex-basis: 200;
         }
         .bt1 {
         opacity: 0;
@@ -197,7 +209,26 @@
         color: #333;
         font-weight: bold;
         }
+        .box_div{
+            display: flex;
+            column-gap: 25px;
+        }
+        .box_div label{
+            flex-basis: 25%;
+            display: flex;
+            justify-content: flex-end;
+        }
 
+        @media screen and (max-width:900px) {
+            .box_div{
+                flex-direction: column;
+                row-gap: 30px;
+            }
+            .box_div label{
+                justify-content: flex-start;
+                flex-basis: 50%;
+            }
+        }
     </style>
 </head>
 
@@ -216,10 +247,15 @@
     </hr>
 
     <div class="box_">
-        <label for="examCount">Total Number of Exams:</label>
-        <input type="number" id="examCount" name="tot" min="1" value="1"><br>
-        <label for="examCount" class="dates__">Dates:</label>
-        <input type="text" id="datePicker"  name='date' placeholder="Select exam dates"><br>
+        <div class="box_div">
+            <label for="examCount" >Total Number of Exams:</label>
+            <input type="number" id="examCount" name="tot" min="1" value="1">
+        </div>
+        <div class="box_div">
+            <label for="examCount" class="dates__" >Dates:</label>
+            <input type="text" id="datePicker"  name='date' placeholder="Select exam dates">
+        </div>
+        
         <button id="generateCalendar" class="gen_button">Generate Calendar</button>
 
         <div id="calendar"></div>

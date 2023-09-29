@@ -82,21 +82,20 @@
 
         .gender-options li {
             padding: 5px 10px;
-            cursor: pointer;    
+            cursor: pointer;
         }
     </style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modify Database</title>
+    <title>Add/Del Staff</title>
 </head>
 <body>
     <div class="split left">
         <div class="centered">
             <h2>Insert Staff</h2>
-            <form action="/addition" method="post">
-            {%csrf_token%}
-            <label for="courtesyTitle">Courtesy Title:</label>
+            <form action="addititon" method="post">
+                <label for="courtesyTitle">Courtesy Title:</label>
                 <select id="courtesyTitle" name="courtesyTitle">
                     <option value="Mr.">Mr.</option>
                     <option value="Ms.">Ms.</option>
@@ -107,16 +106,13 @@
                 <input type="text" id="username" name="username"><br>
                 <label for="password">Department :</label>
                 <input type="text" id="username" name="dept"><br>
-                <label for="password">Designation :</label>
-                <input type="text" id="username" name="desig"><br>
                 <label for="username">Gender:</label>
                 <div class="gender-dropdown">
-                    <label for="gender">Courtesy Title:</label>
-                    <select id="gender" name="gender">
-                        <option value="M">M</option>
-                        <option value="F">F</option>
-                    </select><br>
-                        
+                    <input type="text" id="genderInput" name="gender" readonly>
+                    <ul class="gender-options">
+                        <li data-value="M">M</li>
+                        <li data-value="F">F</li>
+                    </ul>
                 </div><br><br>
                 <button type="submit">Add</button>
             </form>
@@ -125,14 +121,27 @@
 
     <div class="split right">
         <div class="centered">
-            <form action="/deletion" method="post">
             <h2>Delete Staff</h2>
-            {%csrf_token%}
-            {%for i in staff%}
-            <label for="staff">{{i.name}}</label>
-            <input type="checkbox" value="{{i.id}}" name="del" id="'staff"><br>
-            {%endfor%} 
-            <button> delete</button>   
+            <form>
+                <label for="courtesyTitle">Courtesy Title:</label>
+                <select id="courtesyTitle" name="courtesyTitle">
+                    <option value="Mr.">Mr.</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Dr.">Dr.</option>
+                </select><br>
+                <label for="username">Staff Name :</label>
+                <input type="text" id="username" name="username"><br>
+                <label for="password">Department :</label>
+                <input type="text" id="username" name="username"><br>
+                <label for="username">Gender:</label>
+                <div class="gender-dropdown">
+                    <input type="text" id="genderInput" name="gender" readonly>
+                    <ul class="gender-options">
+                        <li data-value="M">M</li>
+                        <li data-value="F">F</li>
+                    </ul>
+                </div><br><br>
+                <button type="submit" formaction="staff.html">Delete</button>
             </form>
         </div>
     </div>

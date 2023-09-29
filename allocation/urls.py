@@ -8,9 +8,11 @@ urlpatterns=[
     path("staffselection",views.staffselection),
     path("edition",views.edition),
     path('edit/',views.edit),
-    path('rooms/',views.rooms),
+    path('rooms/',views.roomss),
     path('roomselect',views.roomselect),
     path('examdate',views.examdate), 
     path('staffedition/',views.staffed), 
+    path('addition',views.addition), 
+    path('deletion',views.deletion), 
     path('download-multiple/', views.download_multiple_files, name='download_multiple_files'),
 ]

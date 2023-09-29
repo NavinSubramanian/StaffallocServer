@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        var alerted = false;
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            /* grid-template-columns: repeat(3, 1fr); */
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            grid-gap: 20px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        .grid-item {
+            text-align: center;
+            background-color: #fff;
+            color: #333;
+            border-radius: 5px;
+            border: 3px solid #15b9c1;
+            transition: transform 0.7s, box-shadow 0.2s;
+        }
+
+        /* .grid-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        } */
+
+        .grid-title {
+            background-color: #15b9c1;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: white;
+            padding: 15px;
+        }
+
+        .scrollable-content {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            background-color: rgb(255, 255, 255); /* Fallback color */
+            background-color: rgb(255, 255, 255,0.4); /* Black w/opacity/see-through */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 102;
+        }
+
+        .gender-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .gender-dropdown input[type="text"] {
+            cursor: pointer;
+        }
+
+        .gender-options {
+            position: absolute;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            z-index: 1;
+        }
+
+        .gender-options li {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .add{
+            background-color: #15b9c1;
+            color: #fff;
+            border: none;
+            width: 150px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .add:hover{
+            background-color: #1d858b;
+        }
+        .delete{
+            width: 150px;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: 2px solid #15b9c1;
+            cursor: pointer;
+            color: black;
+            border-radius: 20px;
+            transition: 1s;
+        }
+        .delete:hover{
+            background-color: #19a1a8;
+            color: white;
+        }
+        .back{
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 50px;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+        .popupcontainer{
+            position: fixed;
+            transition: 1s;
+            filter: blur(2px);
+            background-color: transparent;
+            z-index: 100;
+            top: -999;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Add/Delete Staffs</h1>
+    <form action="/deletion" method="post">
+        {%csrf_token%}
+        <div class="grid-container">
+            {%for j in dept%}
+            <div class="grid-item">
+                <div class="grid-title">{{j}}</div>
+                {%for i in mstaff%}
+                {%if i.department == j%}
+                <div style="height:25px;align-items:center;width: 100%;display: flex;justify-content: flex-start;padding-left: 50px;">
+                    <input type="checkbox" id="staff1" name="del" value="{{i.id}}">
+                    <label for="staff1">{{i.name}}</label><br>
+                </div>
+
+                {%endif%}
+                {%endfor%}
+            </div>
+            {%endfor%}
+        </div>
+        <div style="text-align: center;margin-top: 50px;margin-bottom: 20px;"><button class="delete" onclick="show()">DELETE STAFF</button></div>
+        <script>
+            function show() {
+                if (confirm("Are you sure you want to delete the selected staff?")) {
+                document.querySelector('form').submit();
+                alert("Deletion done successfully.")
+            } else {
+                alert("Deletion canceled.");
+            }
+        }
+            
+        </script>
+    </form>
+    <div>
+        <div style="text-align: center;">
+            <button class="add" onclick="showPopup()" style="margin-bottom: 20px;">ADD STAFF</button><br>
+            <a href="/logins" class="back">Back..?</a>
+        </div>
+        
+        <div id="popupcontainer" class="popupcontainer" style="width: 100%;height: 100%;overflow: hidden;"></div>>
+        <div id="popup" class="popup" >
+            <h2>Add Staff</h2>
+            <hr style="border: 1px solid #333; margin-bottom: 10px;">
+            <div class="split left">
+                <div class="centered">
+                    <form action="/addition" method="post">
+                        {%csrf_token%}
+                        <label for="courtesyTitle">Courtesy Title:</label>
+                        <select id="courtesyTitle" name="courtesyTitle">
+                            <option value="Mr.">Mr.</option>
+                            <option value="Ms.">Ms.</option>
+                            <option value="Dr.">Dr.</option>
+                        </select><br>
+
+                        <label for="username">Staff Name :</label>
+                        <input type="text" id="username" name="username"><br>
+                        <label for="password">Department :</label>
+                        <input type="text" id="username" name="dept"><br>
+                        <label for="password">Designation :</label>
+                        <input type="text" id="username" name="desig"><br>
+                        <label for="username">Gender:</label>
+                        <div class="gender-dropdown">
+                            <input type="text" id="genderInput" name="gender" readonly>
+                            <ul class="gender-options">
+                                <li data-value="M">M</li>
+                                <li data-value="F">F</li>
+                            </ul>
+                        </div><br><br>
+                        <!-- <input type="text" id="staffName" placeholder="Enter staff name"> -->
+                        <button onclick="addStaff()" style="background-color: #007bff;border: none;border-radius: 20px;padding: 5px;cursor: pointer;">Done</button>
+                        <button onclick="hidePopup()" style="background-color: transparent;border: 1px solid #007bff;border-radius: 20px;padding: 5px;cursor: pointer;">Cancel</button>
+                </div>
+
+                <script>
+                    function showPopup() {
+                        var popup = document.getElementById("popup");
+                        var popupcon = document.getElementById("popupcontainer")
+                        popupcon.style.backgroundColor = "#3333339d";
+                        popupcon.style.top = 0;
+                        popup.style.display = "block";
+                    }
+
+                    function hidePopup() {
+                        var popup = document.getElementById("popup");
+                        var popupcon = document.getElementById("popupcontainer")
+                        popupcon.style.backgroundColor = "transparent";
+                        popupcon.style.top = -999;
+                        popup.style.display = "none";
+                    }
+
+                    // function addStaff() {
+                    //     var staffName = document.getElementById("staffName").value;
+                    //     console.log("Added staff: " + staffName);
+                    //     hidePopup();
+                    // }
+                    const genderInput = document.getElementById("genderInput");
+                    const genderOptions = document.querySelector(".gender-options");
+
+                    genderInput.addEventListener("click", () => {
+                        genderOptions.style.display = genderOptions.style.display === "block" ? "none" : "block";
+                    });
+
+                    genderOptions.addEventListener("click", (e) => {
+                        if (e.target.nodeName === "LI") {
+                            genderInput.value = e.target.textContent;
+                            genderOptions.style.display = "none";
+                        }
+                    });
+
+                    document.addEventListener("click", (e) => {
+                        if (!genderOptions.contains(e.target) && e.target !== genderInput) {
+                            genderOptions.style.display = "none";
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+        
+</body>
+
+</html>

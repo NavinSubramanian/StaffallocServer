@@ -32,6 +32,7 @@
             padding: 0;
             font-family: 'Poppins';
             font-weight: 300;
+            margin: 0;
         }
         .container{
             display: flex;
@@ -64,31 +65,28 @@
         .bb{
             display: flex;
             text-align: center;
-            justify-content: space-around;
+            justify-content: space-evenly;
         }
         .bb input{
             width: 250px;
         }
         
         .Box{
-            margin: 0 25px;
             margin: 0 auto;
             width: 90%;
             background-color: rgba(0, 0, 0, 0.158);
             height: 100%;
             border-radius: 20px;
-            display: flex;
             justify-content: space-between;
         }
-        select{
-            height: auto;
-            width: 250px;
+        .bb select{
+            width: 50%;
+            height: 100px;
         }
         .text__box{
             display: flex;
             flex-direction: column;
             height: 100%;
-            flex-basis: 50%;
             justify-content: space-evenly;
         }
         .sell__box{
@@ -98,6 +96,79 @@
         }
         .sell__box div{
             margin: 20px 20px;
+        }
+        .text__box form div{
+            margin: 50px 0;
+        }
+        /* form>button{
+            display: grid;
+            width: 150px;
+            height: 35px;
+            border: 2px solid black;
+            color:black;
+            background-color: transparent;
+            transition: 1s;
+            margin: 0 auto;
+            border-radius: 35px;
+            place-items: center;
+            cursor: pointer;
+        }
+        form>button:hover{
+            color: white;
+            background-color: black;
+        } */
+        .select2-container{
+            max-width: 50%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice{
+            background-color: #008CBA;
+            border: 1px ;
+            height: 25px;
+            width: 50px;
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+            color: white;
+            height: 100%;
+            border: none;
+    
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__display{
+            height: 100%;
+            display: flex;
+            place-items: center;
+        }
+        .bb label{
+            border-bottom: 3px solid black;
+        }
+
+        @media screen and (max-width:885px) {
+            .box div{
+                flex-direction: column;
+            }
+        }
+        @media screen and (max-width:420px) {
+            .bb{
+                flex-direction: column;
+            }
+            .select2-container{
+                max-width: 100%;
+            }
+        }
+        form>button{
+            margin: auto;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-size: medium;
+        }
+        form>button:hover{
+            background-color: black;
+            color: white;
         }
     </style>
 </head>
@@ -109,11 +180,11 @@
             <div class="hero">
                 <div class="box">
                     <div>
-                        <label for="roomcount" class="font1">Total Number of rooms:</label>
+                        <label for="roomcount" class="font1" style="font-weight: bold;">Total Number of rooms:</label>
                         <input type="number" id="examCount" min="1" value="1">
                     </div>
                     <div>
-                        <label for="staffcount" class="font2">Total Number of staffs:</label>
+                        <label for="staffcount" class="font2" style="font-weight: bold;">Total Number of staffs:</label>
                         <input type="number" id="examCount" min="1" value="1">
                     </div>
                 </div>
@@ -122,48 +193,36 @@
 
         <div class="Box">
 
-            <div class="text__box" style="border-right: 1px solid black;">
+            <div class="text__box">
                 <form action="/roomselect" method="post">
                 {%csrf_token%}
                     <div class="box1 bb">
-                    <label for="roomInput" class="Name__">All the rooms:</label>
-                    <select id="roomInput" multiple name="roomInput">
-                        {%for i in rooms%}
-                        <option value="{{i.roomno}}">{{i.roomno}}</option>
-                        {%endfor%}
-                    </select>
-                </div>
-                <div class="box2 bb">
-                    <label for="singlestaff" class="Name__">Single Staffs:</label>
-                
-                    <select id="singlestaff" name="singlestaff" multiple>
-                        {%for i in rooms%}
-                        <option value="{{i.roomno}}">{{i.roomno}}</option>
-                        {%endfor%}
-                    </select></div>
-                <div class="box3 bb">
-                    <label for="girlroom" class="Name__">Girls Room:</label>
-                
-                    <select id="girlroom"name="girlroom" multiple>
-                        {%for i in rooms%}
-                        <option value="{{i.roomno}}">{{i.roomno}}</option>
-                        {%endfor%}
-                    </select></div>
-                    <button>hello</button>
+                        <label for="roomInput" class="Name__">All the rooms:</label>
+                        <select id="roomInput" multiple name="roomInput">
+                            {%for i in rooms%}
+                            <option value="{{i.roomno}}">{{i.roomno}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="box2 bb">
+                        <label for="singlestaff" class="Name__">Single Staffs:</label>
+                        <select id="singlestaff" name="singlestaff" multiple>
+                            {%for i in rooms%}
+                            <option value="{{i.roomno}}">{{i.roomno}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="box3 bb">
+                        <label for="girlroom" class="Name__">Girls Room:</label>
+                        <select id="girlroom"name="girlroom" multiple>
+                            {%for i in rooms%}
+                            <option value="{{i.roomno}}">{{i.roomno}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <button>Next Step</button>
                 </form>
             </div>
-
-            <div class="sell__box">
-
-                <div id="selectedRooms">
-                </div>
-                <div id="selectedSingleRooms">
-                </div>
-                <div id="selectedGirlRooms">
-                </div>
-
-            </div>
-
         </div>
         
     </section>

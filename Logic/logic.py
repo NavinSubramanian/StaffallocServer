@@ -463,4 +463,4 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
     generateResult(roomsPerDay,girls)
 
 # for pdf in day_list:
-#      os.remove(pdf)
+#      os.remove(pdf)

@@ -88,7 +88,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modify Database</title>
+    <title>Add/Del Staff</title>
 </head>
 <body>
     <div class="split left">
@@ -129,9 +129,10 @@
             <h2>Delete Staff</h2>
             {%csrf_token%}
             {%for i in staff%}
-            <label for="staff">{{i.name}}</label>
-            <input type="checkbox" value="{{i.id}}" name="del" id="'staff"><br>
-            {%endfor%} 
+            <label for="department">Select department</label>
+            <select id="department" name="department">
+                <option>CSE</option>
+            </select><br>
             <button> delete</button>   
             </form>
         </div>
@@ -159,3 +160,4 @@
 </script>
 </body>
 </html>
+

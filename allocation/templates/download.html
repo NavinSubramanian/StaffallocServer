@@ -4,8 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+                body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        
+        p {
+            font-size: 24px;
+            color: #333;
+            margin: 20px 0;
+        }
+
+        .click {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px;
+            background-color: #2a9d8f;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .click:hover {
+            background-color: #1d7a6a;
+        }
+    </style>
 </head>
 <body>
-    <a href="{% url 'download_multiple_files' %}">Download Multiple Files</a>
+    <p class="tada">TADA!</p>
+    <p class="process">Your process had been done..</p>
+    <a href="{% url 'download_multiple_files' %}" class="click">Click here to download files now.</a>
 </body>
 </html>

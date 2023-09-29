@@ -10,22 +10,6 @@ import tempfile
 import zipfile
 import os
 
-def download_multiple_files(request):
-    try:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            file_paths = ['Invigilator_Work_Schedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
-            zip_filename = os.path.join(temp_dir, 'files.zip')
-            with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
-                for file_path in file_paths:
-                    print(file_path)
-                    zipf.write(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_path), os.path.basename(file_path))
-            with open(zip_filename, 'rb') as zip_file:
-                response = HttpResponse(zip_file.read(), content_type='application/zip')
-                response['Content-Disposition'] = 'attachment; filename="files.zip"'
-        print('end')
-        return response
-    except:
-        return d(request)
 user=''
 date=[]
 tot=0
@@ -37,6 +21,30 @@ single=[]
 girl=[]
 def login(request):
     return render(request,"login.html")
+def download_multiple_files(request):
+    global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl,user
+    try:
+        user=''
+        date=[]
+        tot=0
+        exam=''
+        mselected_staff=[]
+        fselected_staff=[]
+        rooms=[]
+        single=[]
+        girl=[]
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_paths = ['Invigilator_Shedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
+            zip_filename = os.path.join(temp_dir, 'files.zip')
+            with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                for file_path in file_paths:
+                    zipf.write(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_path), os.path.basename(file_path))
+            with open(zip_filename, 'rb') as zip_file:
+                response = HttpResponse(zip_file.read(), content_type='application/zip')
+                response['Content-Disposition'] = 'attachment; filename="files.zip"'
+        return response
+    except:
+        return d(request)
 
 def register(request):
     name=request.POST['name']
@@ -57,17 +65,33 @@ def logins(request):
     password=request.POST['password']
     names=Users.objects.filter(name=name).values()
     if (names[0]['name']=='admin4' and names[0]['password']==password):
-        staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)&Q(gender='M')).values()
-        staff2=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)&Q(gender='F')).values()
+        staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
+        dept1=Staff.objects.values_list('department').distinct()
+        dept=[]
+        for i in dept1:
+            dept.append(i[0])
+        print(dept)
         user='all'
-        print(staff1,staff2)
-        return render(request,"staff.html",{'mstaff':staff2,'fstaff':staff1})
+        print(staff1)
+        return render(request,"edit2.html",{'mstaff':staff1,'dept':dept})
     elif (names[0]['name']==name and names[0]['password']==password):
-        staff1=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='M')).exclude(Q(name__in=mselected_staff)).values()
-        staff2=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='F')).exclude(Q(name__in=fselected_staff)).values()
+        staff1=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='M')).exclude(Q(name__in=mselected_staff)|Q(designation='HOD')).values()
+        staff2=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='F')).exclude(Q(name__in=fselected_staff)|Q(designation='HOD')).values()
         user=names[0]['department']
         return render(request,"staff.html",{'mstaff':staff1,'fstaff':staff2})
     return render(request,"login.html")
+
+def admins(request):
+        global user
+        staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
+        dept1=Staff.objects.values_list('department').distinct()
+        dept=[]
+        for i in dept1:
+            dept.append(i[0])
+        print(dept)
+        user='all'
+        print(staff1)
+        return render(request,"edit2.html",{'mstaff':staff1,'dept':dept})
 def staffselection(request):
     global mselected_staff,fselected_staff
     selected=request.POST.getlist('staff_name')
@@ -79,7 +103,6 @@ def staffselection(request):
         else:
             fselected_staff.append(staff[0]['name'])
             fselected_staff=list(set(fselected_staff))
-    print(mselected_staff,fselected_staff)
     return render(request,"viewstaff.html",{'mstaff':mselected_staff,'fstaff':fselected_staff})
 
 def edit(request):
@@ -106,7 +129,7 @@ def edition(request):
         fselected_staff.remove(i)
     return render(request,'viewstaff.html',{'mstaff':mselected_staff,'fstaff':fselected_staff})
 
-def rooms(request):
+def roomss(request):
     if user=='all':
         rooms=Rooms.objects.all().values()
         return render(request,'rooms.html',{'rooms':rooms})
@@ -117,13 +140,20 @@ def roomselect(request):
     rooms=request.POST.getlist('roomInput')
     single=request.POST.getlist('singlestaff')
     girl=request.POST.getlist('girlroom')
+    if single==['none']:
+        single=[]
+    if girl==['none']:
+        girl=[]
     print(rooms,single,girl)
-    return render(request,'examtype2.html')
+    if rooms!=[]:
+        print('yes')
+        return render(request,'examtype2.html')
+    return roomss(request)
     pass
 
 def examdate(request):
     try:
-        global user,date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl
+        global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl
         date=request.POST['date'].split()
         exam=request.POST['exam']
         tot=int(request.POST['tot'])
@@ -131,32 +161,42 @@ def examdate(request):
         print(date,exam,tot,mselected_staff,fselected_staff,single,girl,rooms)
         print('aftre')
         superlogic(date,exam,rooms,tot,single,girl,mselected_staff,fselected_staff)
+        return render(request,'download.html')
     except Exception as E:
         print(E)
         print(date,exam,tot,mselected_staff,fselected_staff,single,girl,rooms)
         return render(request,'examtype2.html')
-    user=''
-    date=[]
-    tot=0
-    exam=''
-    mselected_staff=[]
-    fselected_staff=[]
-    rooms=[]
-    single=[]
-    girl=[]
-    return render(request,'download.html')
-
     
 def d(request):
     return render(request,'download.html')
 
 def staffed(request):
-    return render(request,'EditStaff.html')
+    global user,mselected_staff,fselected_staff
+    if user=='all':
+        staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
+        dept1=Staff.objects.values_list('department').distinct()
+        dept=[]
+        for i in dept1:
+            dept.append(i[0])
+        print(dept)
+        print(staff1)
+        return render(request,"admindelete.html",{'mstaff':staff1,'dept':dept})
+    stff=Staff.objects.filter(department=user.upper()).exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)).values()
+    print(user)
+    return render(request,'EditStaff.html',{'staff':stff})
 
 def addition(request):
     title=request.POST['courtesyTitle']
     name=request.POST['username']
-    gender=request.POST['genderInput']
-    deopt=request.POST['dept']
+    gender=request.POST['gender']
+    desig=request.POST['desig']
+    dept=request.POST['dept'].upper()
     names=title+name
-    User=Users.objects.create(name=names,)
+    User=Staff.objects.create(name=names,designation=desig,gender=gender,subcode='abcd',department=dept)
+    User.save()
+    return staffed(request)
+def deletion(request):
+    a=request.POST.getlist('del')
+    for i in a:
+        Staff.objects.filter(id=i).delete()
+    return staffed(request)

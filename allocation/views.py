@@ -191,7 +191,7 @@ def addition(request):
     gender=request.POST['gender']
     desig=request.POST['desig']
     dept=request.POST['dept'].upper()
-    names=title+name
+    names=title+name+' ('+dept+')'
     User=Staff.objects.create(name=names,designation=desig,gender=gender,subcode='abcd',department=dept)
     User.save()
     return staffed(request)

@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,6 +27,11 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             padding: 20px;
+        }
+        @media screen and (max-width:445px){
+            .grid-container{
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
         }
 
         .grid-item {

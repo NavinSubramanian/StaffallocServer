@@ -227,17 +227,17 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
 
             header_data = [
                 [f"{exam}\n"],
-                [f"Exam duty list                                    Date={dates[dates_number]}\n"],
+                [f"Exam duty list                                    Date:{dates[dates_number]}\n"],
             ]
             header_table = Table(header_data, colWidths=6.9*inch, rowHeights=1.3 * cm)
             header_table.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
                 ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                 ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
                 ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
-                ('BACKGROUND', (0, 1), (-1, 1), colors.beige),
+                ('BACKGROUND', (0, 1), (-1, 1), colors.white),
                 ('GRID', (0, 0), (-1, -1), 1, colors.black),
                 ('FONTSIZE', (0, 0), (-1, -1), 15),
             ]))
@@ -262,7 +262,7 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
                 ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
                 ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.white),
                 ('GRID', (0, 0), (-1, -1), 1, colors.black),
                 ('FONTSIZE', (0, 0), (-1, -1), 12),
             ])
@@ -289,27 +289,27 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
         merger = PdfMerger()
         for pdf in day_list:
             merger.append(pdf)
-        merger.write("merged_days.pdf")
+        merger.write("Invigilator_list.pdf")
 
         '''Work Schedule'''
 
-        doc = SimpleDocTemplate(f"Invigilator_Work_Schedule.pdf", pagesize=letter)
+        doc = SimpleDocTemplate(f"Exam duty_Schedule.pdf", pagesize=letter)
 
         elements = []
 
         header_data = [
                 ["Office of the Controller of Examination\n"],
-                [f"{exam} 2023-DUTY LIST\n"],
+                [f"{exam} DUTY LIST\n"],
             ]
         header_table = Table(header_data, colWidths=6.9*inch, rowHeights=1.3 * cm)
         header_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
             ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
-            ('BACKGROUND', (0, 1), (-1, 1), colors.beige),
+            ('BACKGROUND', (0, 1), (-1, 1), colors.white),
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
             ('FONTSIZE', (0, 0), (-1, -1), 15),
         ]))
@@ -335,7 +335,7 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
             ('FONTSIZE', (0, 0), (-1, -1), 12),
         ])
@@ -360,17 +360,17 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
 
         header_data = [
                 ["Office of the Controller of Examination\n"],
-                [f"{exam} 2023-DUTY Count\n"],
+                [f"{exam} Staff Duty Count\n"],
             ]
         header_table = Table(header_data, colWidths=6.9*inch, rowHeights=1.3 * cm)
         header_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
             ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
-            ('BACKGROUND', (0, 1), (-1, 1), colors.beige),
+            ('BACKGROUND', (0, 1), (-1, 1), colors.white),
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
             ('FONTSIZE', (0, 0), (-1, -1), 15),
         ]))
@@ -389,7 +389,7 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
             ('FONTSIZE', (0, 0), (-1, -1), 12),
         ])

@@ -289,11 +289,11 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
         merger = PdfMerger()
         for pdf in day_list:
             merger.append(pdf)
-        merger.write("Invigilator_list.pdf")
+        merger.write("merged_days.pdf")
 
         '''Work Schedule'''
 
-        doc = SimpleDocTemplate(f"Exam duty_Schedule.pdf", pagesize=letter)
+        doc = SimpleDocTemplate(f"Invigilator_Work_Schedule.pdf", pagesize=letter)
 
         elements = []
 

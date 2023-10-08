@@ -8,9 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        h1{
-            font-family: Arial, Helvetica, sans-serif;
-        }
         body {
             font-family: 'Poppins', Arial, Helvetica, sans-serif;
             background-color: #f2f2f2;
@@ -25,11 +22,10 @@
 
         h1 {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            text-align: left;
-            margin: auto;
-            width: 250px;
+            text-align: center;
             border-bottom: 2px solid black;
-            margin-bottom: 40px;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .staff-list {
@@ -41,19 +37,25 @@
         .staff-list-item {
             margin: 5px 0;
             font-size: 16px;
-        }
-        .next{
             display: inline-block;
-            padding: 10px 20px;
-            margin: 20px;
+            padding: 5px 10px;
+            background-color: #008CBA;
+            color: #fff;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .next {
+            display: block;
+            margin-top: 20px;
             background-color: #2a9d8f;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
             font-size: 18px;
-            transition: background-color 0.3s ease;
-            border: none;
+            padding: 10px 20px;
+            text-align: center;
         }
 
         .next:hover {
@@ -62,24 +64,19 @@
     </style>
 </head>
 <body>
-        <h1>Selected Staffs</h1>
+    <h1>Selected Staffs</h1>
     <div class="box1">
-        {%for i in mstaff%}
-        <p> {{i}}</p><br>
-        {%endfor%}
-        {%for i in fstaff%}
-        <p> {{i}}</p><br>
-        {%endfor%}
+        <ul class="staff-list">
+            {% for i in mstaff %}
+                <li class="staff-list-item">{{ i }}</li>
+            {% endfor %}
+            {% for i in fstaff %}
+                <li class="staff-list-item">{{ i }}</li>
+            {% endfor %}
+        </ul>
     </div>
 
-    <a href='rooms/'><button class="next" id="nextPageButton">Next</button></a>
-<a href='edit/'><button class="next" id="nextPageButton">Edit</button></a>
-
-    <script>
-    document.getElementById("editPageButton").addEventListener("click", function() {
-    
-    window.location.href = "Editstaff.html";
-    });
-    </script>
+    <a href='rooms/' class="next">Next</a>
+    <a href='edit/' class="next">Edit</a>
 </body>
 </html>

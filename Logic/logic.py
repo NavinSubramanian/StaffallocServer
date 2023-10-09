@@ -267,7 +267,7 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
                 ('FONTSIZE', (0, 0), (-1, -1), 12),
             ])
             # print(data)
-            table = Table(data,colWidths=[0.8*inch,3*inch,1.4*inch,1.7*inch],rowHeights=0.6*inch)
+            table = Table(data,colWidths=[1.3*inch,3*inch,1.4*inch,1.7*inch],rowHeights=0.6*inch)
             table.setStyle(style)
 
             # Add the table to the list of elements

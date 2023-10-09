@@ -19,6 +19,8 @@ fselected_staff=[]
 rooms=[]
 single=[]
 girl=[]
+deptar={}
+
 def login(request):
     return render(request,"login.html")
 def download_multiple_files(request):
@@ -61,6 +63,7 @@ def register(request):
 
 def logins(request):
     name=request.POST['name']
+    global deptar
     global mselected_staff,user,fselected_staff
     password=request.POST['password']
     names=Users.objects.filter(name=name).values()
@@ -70,9 +73,15 @@ def logins(request):
         dept=[]
         for i in dept1:
             dept.append(i[0])
-        print(dept)
+        tempdept=Staff.objects.values_list('department')
+        temp1=0
+        tempstaff=Staff.objects.values_list('name')
+        for i in tempstaff:
+            deptar[i[0]]=tempdept[temp1][0]
+            temp1+=1
+        # print(dept)
         user='all'
-        print(staff1)
+        # print(staff1)
         return render(request,"edit2.html",{'mstaff':staff1,'dept':dept})
     elif (names[0]['name']==name and names[0]['password']==password):
         staff1=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='M')).exclude(Q(name__in=mselected_staff)|Q(designation='HOD')).values()
@@ -160,7 +169,7 @@ def examdate(request):
         print('views')
         print(date,exam,tot,mselected_staff,fselected_staff,single,girl,rooms)
         print('aftre')
-        superlogic(date,exam,rooms,tot,single,girl,mselected_staff,fselected_staff)
+        superlogic(date,exam,rooms,tot,single,girl,mselected_staff,fselected_staff,deptar)
         return render(request,'download.html')
     except Exception as E:
         print(E)

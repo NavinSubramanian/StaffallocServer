@@ -11,7 +11,7 @@ from PyPDF2 import PdfMerger
 
 
 # Left shift function to cause no problem
-def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_faculty):
+def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_faculty,deptar):
     day_list = []
     print(girls)
 
@@ -216,10 +216,10 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
 
                 '''
             from reportlab.lib.pagesizes import letter
-            from reportlab.platypus import SimpleDocTemplate, Table, TableStyle,Spacer
+            from reportlab.platypus import SimpleDocTemplate, Table, TableStyle,Spacer,Paragraph,Image
             from reportlab.lib import colors
             from reportlab.lib.units import inch,cm
-            from reportlab.lib.styles import getSampleStyleSheet
+            from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 
             doc = SimpleDocTemplate(f"Day_{j+1}_Room_Allocation.pdf", pagesize=letter)
 
@@ -229,7 +229,7 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
                 [f"{exam}\n"],
                 [f"Exam duty list                                    Date:{dates[dates_number]}\n"],
             ]
-            header_table = Table(header_data, colWidths=6.9*inch, rowHeights=1.3 * cm)
+            header_table = Table(header_data, colWidths=7.4*inch, rowHeights=1.3 * cm)
             header_table.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), colors.white),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
@@ -246,14 +246,14 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
             ]
             for keyg,itemg in girls_roomAllocation.items():
                 if len(itemg) == 1:
-                    data.append([f"{keyg}",f"{itemg[0]}",'',''])
+                    data.append([f"{keyg}",f"{itemg[0]} ({deptar[itemg[0]]})",'',''])
                 if len(itemg) == 2:
-                    data.append([f"{keyg}",f"{itemg[0]}\n\n{itemg[1]}",'',''])
+                    data.append([f"{keyg}",f"{itemg[0]} ({deptar[itemg[0]]})\n\n{itemg[1]} ({deptar[itemg[1]]})",'',''])
             for keyb,itemb in boys_roomAllocation.items():
                 if len(itemb) == 1:
-                    data.append([f"{keyb}",f"{itemb[0]}",'',''])
+                    data.append([f"{keyb}",f"{itemb[0]} ({deptar[itemb[0]]})",'',''])
                 if len(itemb) == 2:
-                    data.append([f"{keyb}",f"{itemb[0]}\n\n{itemb[1]}",'',''])
+                    data.append([f"{keyb}",f"{itemb[0]} ({deptar[itemb[0]]})\n\n{itemb[1]} ({deptar[itemb[1]]})",'',''])
             
             style = TableStyle([
                 # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
@@ -301,7 +301,7 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
                 ["Office of the Controller of Examination\n"],
                 [f"{exam} DUTY LIST\n"],
             ]
-        header_table = Table(header_data, colWidths=6.9*inch, rowHeights=1.3 * cm)
+        header_table = Table(header_data, colWidths=7.2*inch, rowHeights=1.3 * cm)
         header_table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.white),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
@@ -346,6 +346,61 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
         elements.append(header_table) 
         elements.append(Spacer(1, 0.1 * letter[1]))
         elements.append(table)
+
+        '''To Append the final paragraphs'''
+
+
+        style = getSampleStyleSheet()
+        yourStyle = ParagraphStyle('yourtitle',
+        fontName="Helvetica",
+        fontSize=16,
+        parent=style['Heading2'],
+        alignment=2,
+        spaceBefore=1*inch,
+        spaceAfter=4
+        )
+        headStyle = ParagraphStyle('headtitle',
+        fontName="Helvetica-Bold",
+        fontSize=18,
+        parent=style['Heading1'],
+        alignment=0,
+        spaceBefore=3*inch,
+        spaceAfter=0.4*inch
+        )
+        paraStyle = ParagraphStyle('paratitle',
+        fontName="Helvetica",
+        fontSize=15,
+        parent=style['Heading2'],
+        alignment=0,
+        spaceAfter=0.4*inch
+        )
+        tailStyle = ParagraphStyle('tailtitle',
+        fontName="Helvetica-Bold",
+        fontSize=20,
+        parent=style['Heading1'],
+        alignment=0,
+        spaceBefore=0.5*inch,
+        )
+        text_content = '''Principle/COE'''
+        Head = 'Follow the below instructions , any deviation will be viewed seriously' 
+        body = '''
+        1. Collect the Question paper and Answer sheets on or before 7.45 am<br /><br />
+        2. Mobile phones are not allowed inside the hall<br /><br />
+        3. Strictly monitor the students, it is not advisable to sit inside the exam hall.<br /><br />
+        4. All have to collect the answer sheet in registration order in their respective
+        halls at the end of the examination and submit the same to the COE office<br /><br />
+        5. Any alteration of duty should be done with the knowledge of COE/DCOE
+        '''
+        tail = 'Kind Note: This allocation is generated by system, suggestion and feedback is welcomed'
+
+        P = Paragraph(text_content, yourStyle)
+        P1 = Paragraph(Head, headStyle)
+        P2 = Paragraph(body, paraStyle)
+        P3 = Paragraph(tail, tailStyle)
+        elements.append(P)
+        elements.append(P1)
+        elements.append(P2)
+        elements.append(P3)
         
         # Build the PDF document
         doc.build(elements)
@@ -400,6 +455,10 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
         # Add the table to the list of elements
         elements.append(header_table) 
         elements.append(table)
+
+        P = Paragraph(text_content, yourStyle)
+        elements.append(P)
+
         
         # Build the PDF document
         doc.build(elements)

@@ -500,10 +500,10 @@ def endsem(name,single_date,sessions,exam1,depttar): # do for single day each ti
         elements = []
         # tempdate = dates[dates_number].split('-')[::-1]
         header_data = [
-            [f"Office of Controller Examination"],
+            [f"Office of Controller of Examination"],
             [f"End Semester Examination - 2023"],
             [f"DUTY LIST {single_date}"],
-            [f"Reporting room : \nReporting time : "],
+            [f"Reporting room : MT6"],
         ]
         header_table = Table(header_data, colWidths=7.4*inch, rowHeights=2 * cm)
         header_table.setStyle(TableStyle([
@@ -596,7 +596,7 @@ def endsem(name,single_date,sessions,exam1,depttar): # do for single day each ti
         text_content2 = '''Signature of COE'''
         Head = 'Follow the below instructions , any deviation will be viewed seriously' 
         body = '''
-        1. Collect the Question paper and Answer sheets on or before 7.45 am<br /><br />
+        1. Collect the Question paper and Answer sheets on or before 30 mins<br /><br />
         2. Mobile phones are not allowed inside the hall<br /><br />
         3. Strictly monitor the students, it is not advisable to sit inside the exam hall.<br /><br />
         4. All have to collect the answer sheet in registration order in their respective
@@ -627,7 +627,7 @@ def endsem(name,single_date,sessions,exam1,depttar): # do for single day each ti
         elements = []
         # tempdate = dates[dates_number].split('-')[::-1]
         header_data = [
-            [f"Office of Controller Examination"],
+            [f"Office of Controller of  Examination"],
             [f"End Semester Examination - 2023"],
             [f"DUTY LIST {single_date}"],
             [f"Reporting room : \nReporting time : "],

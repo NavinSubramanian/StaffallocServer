@@ -630,7 +630,6 @@ def endsem(name,single_date,sessions,exam1,depttar): # do for single day each ti
             [f"Office of Controller of  Examination"],
             [f"End Semester Examination - 2023"],
             [f"DUTY LIST {single_date}"],
-            [f"Reporting room : \nReporting time : "],
         ]
         header_table = Table(header_data, colWidths=7.4*inch, rowHeights=2 * cm)
         header_table.setStyle(TableStyle([

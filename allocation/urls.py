@@ -14,6 +14,8 @@ urlpatterns=[
     path('staffedition/',views.staffed), 
     path('addition',views.addition), 
     path('deletion',views.deletion), 
-    path('/back',views.admins),
+    path('endsems',views.end1),
+    path('endsem',views.endsem1),
+    path('edstaff',views.edstaff),
     path('download-multiple/', views.download_multiple_files, name='download_multiple_files'),
 ]

@@ -15,24 +15,19 @@
             font-family: 'Poppins';
             font-weight: 300;
         }
-
         #calendar {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-template-columns: repeat(6, 1fr);
             gap: 5px;
             row-gap: 20px;
-            width: 100%;
+            max-width: 300px;
+            margin-top: -130px;
             column-gap: 50px;
-            margin-top: 20px;
         }
 
-        @media screen and (max-width:1350px) {
-            
-        }
         .calendar-day {
             border: 2px solid #000000a6;
             padding: 5px;
-            background-color: rgba(255, 255, 255, 0.416);
             text-align: center;
             cursor: pointer;
             transition: 1s;
@@ -81,12 +76,16 @@
         input[type="number"]{
             height: 25px;
             width: 90px;
+            margin-left: 10px;
             margin-bottom: 30px;
         }
-
+        .dates__{
+            margin-left: 135px;
+        }
         input[type="text"]{
             height: 25px;
-            width: 60%;
+            width: 500px;
+            margin-left: 10px;
             margin-bottom: 30px;
         }
         .gen_button {
@@ -98,14 +97,13 @@
             color: #3B3B3B;
             cursor: pointer;
             display: inline-block;
-            margin: 0 auto;
             font-family: monospace;
             font-size: 16px;
             font-weight: 600;
             line-height: normal;
+            margin: 172px;
             margin-top: 20px;
             min-height: 40px;
-            width: 150px;
             min-width: 0;
             outline: none;
             text-align: center;
@@ -137,12 +135,8 @@
             background-color: #1a1a1a22;
             width: 60%;
             margin: auto;
-            height: auto;
+            height: 300px;
             border-radius: 10px;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
             padding: 10px;
             border: 1px solid black;
         }
@@ -154,7 +148,6 @@
             padding: 10px 25px;
             border-radius: 10px;
             font-size: medium;
-            cursor: pointer;
         }
         .next:hover{
             background-color: black;
@@ -162,13 +155,8 @@
         }
         .button {
         display: flex;
-        flex-wrap: wrap;
         justify-content: space-evenly;
-        row-gap: 20px;
-        }
-        .button input{
-            flex-grow: 1;
-            flex-basis: 200;
+        align-items: center;
         }
         .bt1 {
         opacity: 0;
@@ -209,26 +197,7 @@
         color: #333;
         font-weight: bold;
         }
-        .box_div{
-            display: flex;
-            column-gap: 25px;
-        }
-        .box_div label{
-            flex-basis: 25%;
-            display: flex;
-            justify-content: flex-end;
-        }
 
-        @media screen and (max-width:900px) {
-            .box_div{
-                flex-direction: column;
-                row-gap: 30px;
-            }
-            .box_div label{
-                justify-content: flex-start;
-                flex-basis: 50%;
-            }
-        }
     </style>
 </head>
 
@@ -238,24 +207,19 @@
     <div class="button">
         <input type="radio"  id='IA1' class="bt1" name="exam" value="INTERNAL ASSESSMENT1 "><label for="IA1">INTERNAL ASSESSMENT I</label>
         <input type="radio"  id='IA2' class="bt1" name="exam" value="INTERNAL ASSESSMENT2 "><label for="IA2">INTERNAL ASSESSMENT II</label>
-        <input type="radio"  id='IA3' class="bt1" name="exam" value="INTERNAL ASSESSMENT3 "><label for="IA3">INTERNAL ASSESSMENT III</label>
-        <input type="radio"  id='sem' class="bt1" name="exam" value="SEMMESTER "><label for="sem">END SEMESTER</label>
-        <input type="radio"  id='skill' class="bt1" name="exam" value="SKILLRACK"><label for="sem">SKILLRACK</label>
+        <input type="radio"  id='model' class="bt1" name="exam" value="MODEL "><label for="model">MODEL EXAM</label>
+        <input type="radio"  id='sem' class="bt1" name="exam" value="END SEMESTER"><label for="sem">END SEMESTER</label>
+        <input type="radio"  id='skill' class="bt1" name="exam" value="SKILLRACK"><label for="skill">SKILLRACK</label>
     </div>
 
     <hr>
     </hr>
 
     <div class="box_">
-        <div class="box_div">
-            <label for="examCount" >Total Number of Exams:</label>
-            <input type="number" id="examCount" name="tot" min="1" value="1">
-        </div>
-        <div class="box_div">
-            <label for="examCount" class="dates__" >Dates:</label>
-            <input type="text" id="datePicker"  name='date' placeholder="Select exam dates">
-        </div>
-        
+        <label for="examCount">Total Number of Exams:</label>
+        <input type="number" id="examCount" name="tot" min="1" value="1"><br>
+        <label for="examCount" class="dates__">Dates:</label>
+        <input type="text" id="datePicker"  name='date' placeholder="Select exam dates"><br>
         <button id="generateCalendar" class="gen_button">Generate Calendar</button>
 
         <div id="calendar"></div>

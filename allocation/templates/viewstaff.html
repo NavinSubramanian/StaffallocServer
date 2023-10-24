@@ -43,6 +43,11 @@
             color: #fff;
             border-radius: 5px;
             margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .staff-list-item.selected {
+            background-color: #2a9d8f;
         }
 
         .next {
@@ -65,6 +70,7 @@
 </head>
 <body>
     <h1>Selected Staffs</h1>
+    <span id="selected-staff-count"></span> staff selected
     <div class="box1">
         <ul class="staff-list">
             {% for i in mstaff %}
@@ -76,7 +82,32 @@
         </ul>
     </div>
 
-    <a href='rooms/' class="next">Next</a>
+    <a href='endsems' class="next">Next</a>
     <a href='edit/' class="next">Edit</a>
+
+    <script>
+        // Get references to your staff list items and the count span
+        var staffListItems = document.querySelectorAll('.staff-list-item');
+        var selectedStaffCount = document.getElementById('selected-staff-count');
+
+        // Function to update the count
+        function updateStaffCount() {
+            var selectedCount = 0;
+            for (var i = 0; i < staffListItems.length; i++) {
+                if (staffListItems[i].classList.contains('selected')) {
+                    selectedCount++;
+                }
+            }
+            selectedStaffCount.textContent = selectedCount;
+        }
+
+        // Add an event listener to each staff list item to toggle the 'selected' class
+        for (var i = 0; i < staffListItems.length; i++) {
+            staffListItems[i].addEventListener('click', function () {
+                this.classList.toggle('selected');
+                updateStaffCount();
+            });
+        }
+    </script>
 </body>
 </html>

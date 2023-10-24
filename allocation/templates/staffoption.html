@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        select {
+            width: 100%;
+        }
+        .submit-button {
+            text-align: center;
+        }
+        .submit-button input[type="submit"] {
+            background-color: #2a9d8f;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                font-size: 12px; 
+            }
+
+            th, td {
+                padding: 4px; 
+            }
+        @media (max-width: 768px) {
+
+            table {
+                margin: 0; 
+            }
+        }
+        }
+    </style>
+</head>
+<body>
+    <form action='edstaff' method='post'>
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Session</th>
+                <th>Exam Duty As,</th>
+            </tr>
+            {% for i in mstaff %}
+            <tr>
+                <td>
+                    <input type='hidden' name="staff" value="{{i|escape}}">
+                    <p >{{i}}</p>
+                </td>
+                <td>
+                    <select name="session">
+                        <option value="fn">FN</option>
+                        <option value="an">AN</option>
+                        <option value="both">Both</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="examDuty">
+                        <option value="internal">Internal</option>
+                        <option value="external">External</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+            {% for i in fstaff %}
+            <tr>
+                <td>
+                    <input type="hidden" value="{{i}}" name="staff">
+                    <p>{{i}}</p>
+                </td>
+                <td>
+                    <select name="session">
+                        <option value="fn">FN</option>
+                        <option value="an">AN</option>
+                        <option value="both">Both</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="examDuty">
+                        <option value="internal">Internal</option>
+                        <option value="external">External</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+            </table>
+        <br>
+        <div class="submit-button">
+            <input type="submit" value="Submit">
+        </div>
+        
+    </form>
+</body>
+</html>

@@ -592,8 +592,8 @@ def endsem(name,single_date,sessions,exam1,depttar): # do for single day each ti
         alignment=0,
         spaceBefore=0.5*inch,
         )
-        text_content1 = '''Signature of Principle'''
-        text_content2 = '''Signature of COE'''
+        text_content1 = '''Signature of Principal'''
+        text_content2 = '''Signature of COE/DCOE'''
         Head = 'Follow the below instructions , any deviation will be viewed seriously' 
         body = '''
         1. Collect the Question paper and Answer sheets on or before 30 mins<br /><br />

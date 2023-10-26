@@ -700,8 +700,6 @@ def endsem(name,single_date,sessions,exam1,depttar): # do for single day each ti
         # elements.append(header_img)
         elements.append(header_table) 
         elements.append(table)
-        elements.append(P)        
-        elements.append(Pz)
         elements.append(signature_table)
 
 

@@ -23,12 +23,13 @@
         select {
             width: 100%;
         }
-        .submit-button {
-            text-align: center;
-        }
-        .submit-button input[type="submit"] {
+        .submit-button{
             background-color: #2a9d8f;
+            text-align: center;
             color: #fff;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
@@ -62,25 +63,32 @@
             <tr>
                 <th>Name</th>
                 <th>Session</th>
-                <th>Exam Duty As,</th>
+                <th>Exam Duty</th>
             </tr>
             {% for i in mstaff %}
             <tr>
                 <td>
-                    <input type='hidden' name="staff" value="{{i|escape}}">
+                    <input type="hidden" name="staff" value="{{i|escape}}">
                     <p >{{i}}</p>
                 </td>
                 <td>
                     <select name="session">
-                        <option value="fn">FN</option>
-                        <option value="an">AN</option>
-                        <option value="both">Both</option>
+                        <option value="{{i}}:fn">FN</option>
+                        <option value="{{i}}:an">AN</option>
+                        <option value="{{i}}:both">Both</option>
                     </select>
                 </td>
                 <td>
                     <select name="examDuty">
-                        <option value="internal">Internal</option>
-                        <option value="external">External</option>
+                        <option value="{{i}}:internal">Internal</option>
+                        <option value="{{i}}:external">External</option>
+                        <option value="{{i}}:first floor">Squad: first floor</option>
+                        <option value="{{i}}:second floor">Squad: second floor</option>
+                        <option value="{{i}}:third floor">Squad: third floor</option>
+                        <option value="{{i}}:CITAR block A">Squad: CITAR block A</option>
+                        <option value="{{i}}:CITAR block B">Squad:  CITAR block B</option>
+                        <option value="{{i}}:CITAR block C">Squad:  CITAR block C</option>
+                        <option value="{{i}}:CITAR block D">Squad:  CITAR block D</option>
                     </select>
                 </td>
             </tr>
@@ -93,25 +101,29 @@
                 </td>
                 <td>
                     <select name="session">
-                        <option value="fn">FN</option>
-                        <option value="an">AN</option>
-                        <option value="both">Both</option>
+                        <option value="{{i}}:fn">FN</option>
+                        <option value="{{i}}:an">AN</option>
+                        <option value="{{i}}:both">Both</option>
                     </select>
                 </td>
                 <td>
                     <select name="examDuty">
-                        <option value="internal">Internal</option>
-                        <option value="external">External</option>
+                        <option value="{{i}}:internal">Internal</option>
+                        <option value="{{i}}:external">External</option>
+                        <option value="{{i}}:first floor">Squad: first floor</option>
+                        <option value="{{i}}:second floor">Squad: second floor</option>
+                        <option value="{{i}}:third floor">Squad: third floor</option>
+                        <option value="{{i}}:CITAR block A">Squad: CITAR block A</option>
+                        <option value="{{i}}:CITAR block B">Squad:  CITAR block B</option>
+                        <option value="{{i}}:CITAR block C">Squad:  CITAR block C</option>
+                        <option value="{{i}}:CITAR block D">Squad:  CITAR block D</option>
                     </select>
                 </td>
             </tr>
             {% endfor %}
             </table>
         <br>
-        <div class="submit-button">
-            <input type="submit" value="Submit">
-        </div>
-        
+        <input class="submit-button" type="submit" value="Submit">
     </form>
 </body>
 </html>

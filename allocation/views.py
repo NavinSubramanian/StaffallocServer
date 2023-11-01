@@ -11,13 +11,13 @@ import zipfile
 import os
 
 user=''
+index1=[]
+name2={}
+index2=[]
 date=[]
 tot=0
 exam=''
 mselected_staff=[]
-sitaf=[]
-deptar=[]
-depttar={}
 fselected_staff=[]
 rooms=[]
 single=[]
@@ -31,15 +31,16 @@ def login(request):
 
 
 def download_multiple_files(request):
-    global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl,user,exam1,sessions,name
+    global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl,user,exam1,sessions,name,name2
     try:
         if exam=="END SEMESTER":
-            file_paths=['Internal_Allocation.pdf','External_Allocation.pdf']
+            file_paths=['Internal_Allocation.pdf','External_Allocation.pdf','SEMESTER_SQUAD_DUTY_Allocation.pdf']
         else:
             file_paths = ['Invigilator_Shedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
         user=''
         date=[]
         tot=0
+        name2={}
         exam=''
         mselected_staff=[]
         fselected_staff=[]
@@ -76,10 +77,7 @@ def register(request):
 
 
 def endsem1(request):
-    global mselected_staff,fselected_staff
-    print('end')
-    print(repr(mselected_staff))
-    print(fselected_staff)
+    global mselected_staff,fselected_staff,index2,index1
     return render(request,'staffoption.html',{'mstaff':mselected_staff,'fstaff':fselected_staff})
 
 
@@ -88,30 +86,27 @@ def noend(request):
 
 
 def logins(request):
-    name=request.POST['name']
-    global mselected_staff,user,fselected_staff,sitaf,deptar,depttar
-    password=request.POST['password']
-    names=Users.objects.filter(name=name).values()
-    if (names[0]['name']=='admin4' and names[0]['password']==password):
-        staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
-        dept1=Staff.objects.values_list('department').distinct()
-        sitaf=Staff.objects.values_list('name')
-        deptar=Staff.objects.values_list('department')
-        j = 0
-        for i in sitaf:
-            depttar[i[0]]=deptar[j][0]
-            j += 1
-        dept=[]
-        for i in dept1:
-            dept.append(i[0])
-        user='all'
-        return render(request,"edit2.html",{'mstaff':staff1,'dept':dept})
-    elif (names[0]['name']==name and names[0]['password']==password):
-        staff1=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='M')).exclude(Q(name__in=mselected_staff)|Q(designation='HOD')).values()
-        staff2=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='F')).exclude(Q(name__in=fselected_staff)|Q(designation='HOD')).values()
-        user=names[0]['department']
-        return render(request,"staff.html",{'mstaff':staff1,'fstaff':staff2})
-    return render(request,"login.html")
+    try:    
+        name=request.POST['name']
+        global mselected_staff,user,fselected_staff
+        password=request.POST['password']
+        names=Users.objects.filter(name=name).values()
+        if (names[0]['name']=='admin4' and names[0]['password']==password):
+            staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
+            dept1=Staff.objects.values_list('department').distinct()
+            dept=[]
+            for i in dept1:
+                dept.append(i[0])
+            user='all'
+            return render(request,"edit2.html",{'mstaff':staff1,'dept':dept})
+        elif (names[0]['name']==name and names[0]['password']==password):
+            staff1=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='M')).exclude(Q(name__in=mselected_staff)|Q(designation='HOD')).values()
+            staff2=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='F')).exclude(Q(name__in=fselected_staff)|Q(designation='HOD')).values()
+            user=names[0]['department']
+            return render(request,"staff.html",{'mstaff':staff1,'fstaff':staff2})
+        return render(request,"login.html")
+    except:
+        return render(request,'login.html')
 
 
 def admins(request):
@@ -126,20 +121,18 @@ def admins(request):
 
 
 def staffselection(request):
-    global mselected_staff,fselected_staff
+    global mselected_staff,fselected_staff,index2,index1
     selected=request.POST.getlist('staff_name')
-    print('s')
-    print(selected)
     for i in selected:
         staff=Staff.objects.filter(id=i).values()
         if staff[0]['gender']=='M':
             mselected_staff.append(staff[0]['name'])
+            index1.append(staff[0]['id'])
             mselected_staff=list(set(mselected_staff))
         else:
             fselected_staff.append(staff[0]['name'])
+            index2.append(staff[0]['id'])
             fselected_staff=list(set(fselected_staff))
-        print(mselected_staff)
-        print(fselected_staff)
     return render(request,"viewstaff.html",{'mstaff':mselected_staff,'fstaff':fselected_staff})
 
 
@@ -196,13 +189,12 @@ def roomselect(request):
 
 
 def examdate(request):
-        global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl,name,sessions,exam1,depttar
+        global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl,name2,sessions,exam1
         date=request.POST['date'].split()
         exam=request.POST['exam']
         tot=int(request.POST['tot'])
         if exam=="END SEMESTER":
-            print(name,date[0],sessions,exam1)
-            endsem(name,date[0],sessions,exam1,depttar)
+            endsem(name2,date[0])
             return render(request,'download.html')
         superlogic(date,exam,rooms,tot,single,girl,mselected_staff,fselected_staff)
         return render(request,'download.html')
@@ -244,11 +236,31 @@ def deletion(request):
     return staffed(request)
 
 def edstaff(request):
-    global name,exam1,sessions
+    global name,exam1,sessions,dept,index1,index2,name2
     name=request.POST.getlist('staff')
     sessions=request.POST.getlist('session')
+    k=0
     exam1=request.POST.getlist('examDuty')
-    print(name)
+    s={}
+    e={}
+    for i in sessions:
+        m=i.split(":")
+        s[m[0]]=m[1]
+    for i in exam1:
+        m=i.split(":")
+        e[m[0]]=m[1]
+    for i in index1:
+        d=Staff.objects.filter(id=i).values()[0]['name']
+        name2[d]={}
+        name2[d]['dept']=(Staff.objects.filter(id=i).values()[0]['department'])
+        name2[d]['session']=s[d]
+        name2[d]['duty']=e[d]
+    for i in index2:
+        d=Staff.objects.filter(id=i).values()[0]['name']
+        name2[d]={}
+        name2[d]['dept']=(Staff.objects.filter(id=i).values()[0]['department'])
+        name2[d]['session']=s[d]
+        name2[d]['duty']=e[d]
     if user=='all':
-        return render(request,'examtype2.html')
+            return render(request,'examtype2.html')
     return render(request,'finished.html')

@@ -481,227 +481,317 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
 
 # for pdf in day_list:
 #      os.remove(pdf)
-def endsem(name,single_date,sessions,exam1,depttar): # do for single day each time
-        faculty1 = name
-        print("Faculty = ",faculty1)
-        faculty={}
-        for i in range(len(name)):
-            k=name[i]
-            faculty[k]={}
-            faculty[k]["duty"]=exam1[i]
-            faculty[k]['session']=sessions[i]
-        print('\n\nfac',faculty)
-        print(faculty1)
-        random.shuffle(faculty1)
 
-        # <------------- FOR Internal------------>
+def endsem(name,single_date): # do for single day each time
+    faculty1 = []
+    for i in name.keys():
+        faculty1.append(i)
+    faculty=name
+    random.shuffle(faculty1)
 
-        doc = SimpleDocTemplate(f"Internal_Allocation.pdf", pagesize=letter)
-        elements = []
-        # tempdate = dates[dates_number].split('-')[::-1]
-        header_data = [
-            [f"Office of Controller of Examination"],
-            [f"End Semester Examination - 2023"],
-            [f"DUTY LIST {single_date}"],
-            [f"Reporting room : MT6"],
-        ]
-        header_table = Table(header_data, colWidths=7.4*inch, rowHeights=2 * cm)
-        header_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.white),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
-            ('BACKGROUND', (0, 1), (-1, 1), colors.white),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ('FONTSIZE', (0, 0), (-1, -1), 15),
-        ]))
+    # <------------- FOR Internal------------>
 
-        sno = 1
-        data = [
-            ["S.no","Name of the Faculty","Department","Session","Duty Venue"]
-        ]
+    doc = SimpleDocTemplate(f"Internal_Allocation.pdf", pagesize=letter)
+    elements = []
+    # tempdate = dates[dates_number].split('-')[::-1]
+    header_data = [
+        [f"Office of Controller Examination"],
+        [f"End Semester Examination - 2023"],
+        [f"DUTY LIST {single_date}"],
+        [f"Reporting room : MT6"],
+    ]
+    header_table = Table(header_data, colWidths=7.4*inch, rowHeights=1.3 * cm)
+    header_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
+        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('FONTSIZE', (0, 0), (-1, -1), 15),
+    ]))
 
-        for name in faculty1:
-            if faculty[name]['duty'] == "external":
-                pass
-            else:
-                sess = faculty[name]['session'].upper()
-                data.append([f"{sno}",f"{name}",f"{depttar[name]}",f"{sess}","CIT"])
-                sno += 1
+    sno = 1
+    data = [
+        ["S.no","Name of the Faculty","Department","Session","Duty Venue"]
+    ]
 
-        style = TableStyle([
-            # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            # ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ('FONTSIZE', (0, 0), (-1, -1), 12),
-        ])
-        # print(data)
-        table = Table(data,colWidths=[0.5*inch,3.3*inch,1.4*inch,1.1*inch,1.1*inch],rowHeights=0.6*inch)
-        table.setStyle(style)
-        signature_data = [["Signature of COE", "Signature of Principal"],
-        ]
-        signature_table = Table(signature_data, colWidths=[3.7*inch, 3.7*inch], rowHeights=2*inch)
-        signature_table.setStyle(TableStyle([
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
-            ('BACKGROUND', (0, 0), (-1, 0), colors.white),
-            ('GRID', (0, 0), (-1, -1), 0.1, colors.white),
-            ('FONTSIZE', (0, 0), (-1, -1), 12),
-        ]))
+    for i in faculty1:
+        if faculty[i]['duty'] == "internal":
+            sess = faculty[i]['session'].upper()
+            data.append([f"{sno}",f"{i}",f"{faculty[i]['dept']}",f"{sess}","CIT"])
+            sno += 1
 
-        # from django.templatetags.static import static
+    style = TableStyle([
+        # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        # ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('FONTSIZE', (0, 0), (-1, -1), 12),
+    ])
+    # print(data)
+    table = Table(data,colWidths=[0.5*inch,3.3*inch,1.4*inch,1.1*inch,1.1*inch],rowHeights=0.6*inch)
+    table.setStyle(style)
 
-        # full_path = static('images/cit.png')
+    signature_data = [["Signature of COE", "Signature of Principal"],
+    ]
+    signature_table = Table(signature_data, colWidths=[3.7*inch, 3.7*inch], rowHeights=2*inch)
+    signature_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+        ('GRID', (0, 0), (-1, -1), 0.1, colors.white),
+        ('FONTSIZE', (0, 0), (-1, -1), 12),
+    ]))
 
-        # header_img = Image(full_path, 50, 150)
+    # Add the table to the list of elements
+    elements.append(header_table) 
+    elements.append(table)
+    elements.append(signature_table)
 
-        # Add the table to the list of elements
-
-        # elements.append(header_img)
-        elements.append(header_table) 
-        elements.append(table)
-        elements.append(signature_table)
-
-        '''To Append the final paragraphs'''
+    '''To Append the final paragraphs'''
 
 
-        sstyle = getSampleStyleSheet()
-        yourStyle = ParagraphStyle('yourtitle',
-        fontName="Helvetica",
-        fontSize=16,
-        parent=sstyle['Heading2'],
-        alignment=2,
-        spaceBefore=1*inch,
-        spaceAfter=4
-        )
-        headStyle = ParagraphStyle('headtitle',
-        fontName="Helvetica-Bold",
-        fontSize=18,
-        parent=sstyle['Heading1'],
-        alignment=0,
-        spaceBefore=3*inch,
-        spaceAfter=0.4*inch
-        )
-        paraStyle = ParagraphStyle('paratitle',
-        fontName="Helvetica",
-        fontSize=15,
-        parent=sstyle['Heading2'],
-        alignment=0,
-        spaceAfter=0.4*inch
-        )
-        tailStyle = ParagraphStyle('tailtitle',
-        fontName="Helvetica-Bold",
-        fontSize=20,
-        parent=sstyle['Heading1'],
-        alignment=0,
-        spaceBefore=0.5*inch,
-        )
-        # text_content1 = '''Signature of Principal'''
-        # text_content2 = '''Signature of COE/DCOE'''
-        Head = 'Follow the below instructions , any deviation will be viewed seriously' 
-        body = '''
-        1. Collect the Question paper and Answer sheets on or before 30 mins<br /><br />
-        2. Mobile phones are not allowed inside the hall<br /><br />
-        3. Strictly monitor the students, it is not advisable to sit inside the exam hall.<br /><br />
-        4. All have to collect the answer sheet in registration order in their respective
-        halls at the end of the examination and submit the same to the COE office<br /><br />
-        5. Any alteration of duty should be done with the knowledge of COE/DCOE
-        '''
-        tail = 'Kind Note: This allocation is generated by system, suggestion and feedback is welcomed'
+    sstyle = getSampleStyleSheet()
+    yourStyle = ParagraphStyle('yourtitle',
+    fontName="Helvetica",
+    fontSize=16,
+    parent=sstyle['Heading2'],
+    alignment=2,
+    spaceBefore=1*inch,
+    spaceAfter=4
+    )
+    headStyle = ParagraphStyle('headtitle',
+    fontName="Helvetica-Bold",
+    fontSize=18,
+    parent=sstyle['Heading1'],
+    alignment=0,
+    spaceBefore=3*inch,
+    spaceAfter=0.4*inch
+    )
+    paraStyle = ParagraphStyle('paratitle',
+    fontName="Helvetica",
+    fontSize=15,
+    parent=sstyle['Heading2'],
+    alignment=0,
+    spaceAfter=0.4*inch
+    )
+    tailStyle = ParagraphStyle('tailtitle',
+    fontName="Helvetica-Bold",
+    fontSize=20,
+    parent=sstyle['Heading1'],
+    alignment=0,
+    spaceBefore=0.5*inch,
+    )
+    # text_content1 = '''Signature of Principal'''
+    # text_content2 = '''Signature of COE/DCOE'''
+    Head = 'Follow the below instructions , any deviation will be viewed seriously' 
+    body = '''
+    1. Collect the Question paper and Answer sheets on or before 30 mins<br /><br />
+    2. Mobile phones are not allowed inside the hall<br /><br />
+    3. Strictly monitor the students, it is not advisable to sit inside the exam hall.<br /><br />
+    4. All have to collect the answer sheet in registration order in their respective
+    halls at the end of the examination and submit the same to the COE office<br /><br />
+    5. Any alteration of duty should be done with the knowledge of COE/DCOE
+    '''
+    tail = 'Kind Note: This allocation is generated by system, suggestion and feedback is welcomed'
 
-        # P = Paragraph(text_content1, yourStyle)
-        # Pz = Paragraph(text_content2, yourStyle)
-        P1 = Paragraph(Head, headStyle)
-        P2 = Paragraph(body, paraStyle)
-        P3 = Paragraph(tail, tailStyle)
-        # elements.append(P)
-        # elements.append(Pz)
-        elements.append(P1)
-        elements.append(P2)
-        elements.append(P3)
-        
-        # Build the PDF document
-        doc.build(elements)
-
-
-        # <------------- FOR External------------>
+    # P = Paragraph(text_content1, yourStyle)
+    # Pz = Paragraph(text_content2, yourStyle)
+    P1 = Paragraph(Head, headStyle)
+    P2 = Paragraph(body, paraStyle)
+    P3 = Paragraph(tail, tailStyle)
+    # elements.append(P)
+    # elements.append(Pz)
+    elements.append(P1)
+    elements.append(P2)
+    elements.append(P3)
+    
+    # Build the PDF document
+    doc.build(elements)
 
 
-        doc = SimpleDocTemplate(f"External_Allocation.pdf", pagesize=letter)
-        elements = []
-        # tempdate = dates[dates_number].split('-')[::-1]
-        header_data = [
-            [f"Office of Controller of  Examination"],
-            [f"End Semester Examination - 2023"],
-            [f"DUTY LIST {single_date}"],
-        ]
-        header_table = Table(header_data, colWidths=7.4*inch, rowHeights=2 * cm)
-        header_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.white),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
-            ('BACKGROUND', (0, 1), (-1, 1), colors.white),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ('FONTSIZE', (0, 0), (-1, -1), 15),
-        ]))
-
-        sno = 1
-
-        data = [
-            ["S.no","Name of the Faculty","Department","Session","Duty Venue"]
-        ]
-
-        for name in faculty1:
-            if faculty[name]['duty'] == "internal":
-                pass
-            else:
-                sess = faculty[name]['session'].upper()
-                data.append([f"{sno}",f"{name}",f"{depttar[name]}",f"{sess}","PEC"])
-                sno += 1
-
-        style = TableStyle([
-            # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            # ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ('FONTSIZE', (0, 0), (-1, -1), 12),
-        ])
-        # print(data)
-        table = Table(data,colWidths=[0.5*inch,3.3*inch,1.4*inch,1.1*inch,1.1*inch],rowHeights=0.6*inch)
-        table.setStyle(style)
-        signature_data = [["Signature of COE", "Signature of Principal"],
-        ]
-        signature_table = Table(signature_data, colWidths=[3.7*inch, 3.7*inch], rowHeights=2*inch)
-        signature_table.setStyle(TableStyle([
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
-            ('BACKGROUND', (0, 0), (-1, 0), colors.white),
-            ('GRID', (0, 0), (-1, -1), 0.1, colors.white),
-            ('FONTSIZE', (0, 0), (-1, -1), 12),
-        ]))
-
-        # Add the table to the list of elements
-        # elements.append(header_img)
-        elements.append(header_table) 
-        elements.append(table)
-        elements.append(signature_table)
+    # <------------- FOR External------------>
 
 
-        # Build the PDF document
-        doc.build(elements)
+    doc = SimpleDocTemplate(f"External_Allocation.pdf", pagesize=letter)
+    elements = []
+    # tempdate = dates[dates_number].split('-')[::-1]
+    header_data = [
+        [f"Office of Controller Examination"],
+        [f"End Semester Examination - 2023"],
+        [f"DUTY LIST {single_date}"],
+    ]
+    header_table = Table(header_data, colWidths=7.4*inch, rowHeights=1.3 * cm)
+    header_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
+        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('FONTSIZE', (0, 0), (-1, -1), 15),
+    ]))
+
+    sno = 1
+
+    data = [
+        ["S.no","Name of the Faculty","Department","Session","Duty Venue"]
+    ]
+
+    for i in faculty1:
+        if faculty[i]['duty'] == "external":
+            sess = faculty[i]['session'].upper()
+            data.append([f"{sno}",f"{i}",f"{faculty[i]['dept']}",f"{sess}","CIT"])
+            sno += 1
+
+    style = TableStyle([
+        # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        # ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('FONTSIZE', (0, 0), (-1, -1), 12),
+    ])
+    # print(data)
+    table = Table(data,colWidths=[0.5*inch,3.3*inch,1.4*inch,1.1*inch,1.1*inch],rowHeights=0.6*inch)
+    table.setStyle(style)
+
+    signature_data = [["Signature of COE", "Signature of Principal"],
+    ]
+    signature_table = Table(signature_data, colWidths=[3.7*inch, 3.7*inch], rowHeights=2*inch)
+    signature_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+        ('GRID', (0, 0), (-1, -1), 0.1, colors.white),
+        ('FONTSIZE', (0, 0), (-1, -1), 12),
+    ]))        
+
+    # Add the table to the list of elements
+    elements.append(header_table) 
+    elements.append(table)
+    elements.append(signature_table)
+    
+    # Build the PDF document
+    doc.build(elements)
+
+    # <---------------squad members duty------------>
+    
+    doc = SimpleDocTemplate(f"SEMESTER_SQUAD_DUTY_Allocation.pdf", pagesize=letter)
+    elements = []
+    # tempdate = dates[dates_number].split('-')[::-1]
+    header_data = [
+        [f"Office of Controller Examination"],
+        [f"End Semester Examination - 2023"],
+        [f"SQUAD MEMBERS DUTY LIST {single_date}"],
+        [f"Reporting room : MT6"],
+    ]
+    header_table = Table(header_data, colWidths=7.4*inch, rowHeights=1.3 * cm)
+    header_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 0.3 * cm),
+        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('FONTSIZE', (0, 0), (-1, -1), 15),
+    ]))
+
+    sno = 1
+
+    data = [
+        ["S.no","Name of the Faculty","Department","Session","Duty Venue"]
+    ]
+
+    for i in faculty1:
+        if faculty[i]['duty'] == "first floor":
+            sess = faculty[i]['session'].upper()
+            data.append([f"{sno}",f"{i}",f"{faculty[i]['dept']}",f"{sess}","CIT first floor"])
+            sno += 1
+
+    for i in faculty1:
+        if faculty[i]['duty'] == "second floor":
+            sess = faculty[i]['session'].upper()
+            data.append([f"{sno}",f"{i}",f"{faculty[i]['dept']}",f"{sess}","CIT second floor"])
+            sno += 1
+
+    for i in faculty1:
+        if faculty[i]['duty'] == "third floor":
+            sess = faculty[i]['session'].upper()
+            data.append([f"{sno}",f"{i}",f"{faculty[i]['dept']}",f"{sess}","CIT third floor"])
+            sno += 1
+
+    for i in faculty1:
+        if faculty[i]['duty'] == "CITAR block A":
+            sess = faculty[i]['session'].upper()
+            data.append([f"{sno}",f"{i}",f"{faculty[i]['dept']}",f"{sess}","CITAR block A"])
+            sno += 1
+
+    for i in faculty1:
+        if faculty[i]['duty'] == "CITAR block B":
+            sess = faculty[i]['session'].upper()
+            data.append([f"{sno}",f"{i}",f"{faculty[i]['dept']}",f"{sess}","CITAR block B"])
+            sno += 1
+
+    for i in faculty1:
+        if faculty[i]['duty'] == "CITAR block C":
+            sess = faculty[i]['session'].upper()
+            data.append([f"{sno}",f"{i}",f"{faculty[i]['dept']}",f"{sess}","CITAR block C"])
+            sno += 1
+
+    for i in faculty1:
+        if faculty[i]['duty'] == "CITAR block D":
+            sess = faculty[i]['session'].upper()
+            data.append([f"{sno}",f"{i}",f"{faculty[i]['dept']}",f"{sess}","CITAR block D"])
+            sno += 1
+
+    style = TableStyle([
+        # ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        # ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('FONTSIZE', (0, 0), (-1, -1), 12),
+    ])
+    # print(data)
+    table = Table(data,colWidths=[0.5*inch,3*inch,1.3*inch,1.1*inch,1.5*inch],rowHeights=0.6*inch)
+    table.setStyle(style)
+
+    signature_data = [["Signature of COE", "Signature of Principal"],
+    ]
+    signature_table = Table(signature_data, colWidths=[3.7*inch, 3.7*inch], rowHeights=2*inch)
+    signature_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.white),
+        ('GRID', (0, 0), (-1, -1), 0.1, colors.white),
+        ('FONTSIZE', (0, 0), (-1, -1), 12),
+    ]))       
+
+    # Add the table to the list of elements
+    elements.append(header_table) 
+    elements.append(table)
+    elements.append(signature_table)
+    
+    # Build the PDF document
+    doc.build(elements)

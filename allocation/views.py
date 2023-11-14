@@ -36,7 +36,7 @@ def download_multiple_files(request):
         if exam=="END SEMESTER":
             file_paths=['Internal_Allocation.pdf','External_Allocation.pdf','SEMESTER_SQUAD_DUTY_Allocation.pdf']
         else:
-            file_paths = ['Invigilator_Shedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
+            file_paths = ['Invigilator_Work_Schedule.pdf','Invigilator_Work_Count.pdf','merged_days.pdf']
         user=''
         date=[]
         tot=0

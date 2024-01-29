@@ -55,7 +55,7 @@ def download_multiple_files(request):
             with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
                 for file_path in file_paths:
                     zipf.write(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_path), os.path.basename(file_path))
-            with open(zip_filename, 'rb') as zip_file:
+            with open(zip_filename, 'wb') as zip_file:
                 response = HttpResponse(zip_file.read(), content_type='application/zip')
                 response['Content-Disposition'] = 'attachment; filename="files.zip"'
         return response
@@ -70,7 +70,8 @@ def register(request):
     department=request.POST['department']
     email=request.POST['email']
     names=Users.objects.values_list('name')
-    if name!='' and password==confirmation and name not in names[0]:
+    print(name," ",password," ",confirmation," ",department," ",email)
+    if name!='' and password==confirmation and name not in names[0]: 
         user=Users(name=name,password=password,department=department,email=email)
         user.save()
     return render(request,"login.html")

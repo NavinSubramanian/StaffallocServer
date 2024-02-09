@@ -54,10 +54,7 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
             start_ind = 0
             
             session = 'FN' #if j == 0 else 'AN' # set session to FN for first day (internal assessment), AN for other days (model exams)
-            print('after2')
             global girlss
-            print(date,rooms,single,girls,mselected_faculty,fselected_faculty)
-            print('af')
             singles = single 
             girls_rooms={}
             '''Boys rooms dictionary'''
@@ -69,7 +66,6 @@ def superlogic(date,exam,rooms,tot,single,girls,mselected_faculty,fselected_facu
             boys_rooms={}
             for i in byr:
                 boys_rooms[i]=[]
-            print(all_rooms,boys_rooms,girls_rooms,invigilators,b_invi,g_invi)
             all_roomsAlloc = copy.deepcopy(rooms)
             boys_roomAllocation = copy.deepcopy(boys_rooms)
             girls_roomAllocation = copy.deepcopy(girls_rooms)

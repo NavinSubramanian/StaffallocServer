@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root{
+            --primary:#008CBA;
+            --dark: rgb(33, 33, 33);
+        }
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial;
+            scroll-behavior: smooth;
+        }
+        body{
+            overflow-x: hidden;
+            width: 100vw;
+            height: auto;
+        }
+        a{
+            text-decoration: none;
+            color: var(--dark);
+        }
+        .main_nav{
+            display: flex;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(3px);
+            background-color: rgba(255, 255, 255, 0.475);
+            z-index: 1000;
+            padding: 25px 100px;
+            height: 10vh;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .main_nav>div{
+            display: flex;
+            column-gap: 30px;
+        }
+        .main_nav>div>h1{
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: 300;
+            position: relative;
+            overflow: hidden;
+        }
+        .main_nav>div>h1::after{
+            content: "";
+            width: 35px;
+            height: 2px;
+            position: absolute;
+            bottom: 0;
+            left: -50px;
+            transition: 0.5s;
+            background-color: var(--primary);
+        }
+        .main_nav>div>h1:hover::after{
+            left: 8px;
+        }
+        .main_nav>a>button{
+            padding: 5px;
+            height: 35px;
+            width: 80px;
+            border-radius: 25px;
+            transition: 0.6s;
+            background-color: transparent;
+            color: var(--primary);
+            font-weight: 700;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+        .main_nav>a>button:hover{
+            background-color: var(--primary);
+            color: white;
+        }
+
+
+        /* Home page section */
+
+
+        .homepage_section{
+            width: 100%;
+            display: flex;
+            padding: 0 100px;
+            justify-content: space-between;
+            align-items: center;
+            height: 70vh;
+        }
+        .left_home{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            row-gap: 40px;
+            width: 100%;
+            height: 100%;
+            flex-basis: 50%;
+        }
+        .left_home>h1{
+            font-size: 54px;
+        }
+        .left_home>h4{
+            font-size: 20px;
+            font-weight: 400;
+        }
+        .left_home>button{
+            background-color: var(--primary);
+            height: 40px;
+            border: none;
+            box-shadow: 0 0 10px var(--primary);
+            border-radius: 10px;
+            transition: 0.5s;
+            width: 200px;
+            cursor: pointer;
+            color: white;
+        }
+        .left_home>button:hover{
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+
+
+        /* Something section */
+
+
+        .some_section{
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            position: relative;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 20vh;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .some_section>div{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
+            padding-right: 60px ;
+        }
+        .some_section>div:not(:last-child){
+            border-right: 2px solid rgba(0, 0, 0, 0.264);
+        }
+        .some_section>div>i{
+            color: var(--primary);
+            font-size: 19px;
+            background-color: #bfdee9;
+            padding: 12px;
+            border-radius: 50%;
+        }
+        .some_section>div>h1{
+            font-size: 25px;
+            font-weight: 500;
+        }
+        .some_section>div>h3{
+            font-size: 13px;
+            font-weight: 300;
+            text-align: center;
+            color: rgb(53, 53, 53);
+        }
+
+
+        /* Features Section */
+
+
+
+        .features_section{
+            width: 100%;
+            display: flex;
+            padding: 0 100px;
+            justify-content: space-between;
+            align-items: center;
+            height: 60vh;
+        }
+        .right_feature{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            row-gap: 20px;
+            width: 100%;
+            height: 100%;
+            flex-basis: 50%;
+        }
+        .right_feature>h1{
+            font-size: 38px;
+            line-height: 50px;
+        }
+        .right_feature>h4{
+            font-size: 18px;
+            font-weight: 400;
+        }
+        .right_feature>ul>li{
+            margin: 10px 0;
+        }
+
+
+
+        /* Generate PDF */
+
+
+
+        .pdf_section{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60vh;
+        }   
+        .pdf_left{
+            row-gap: 30px;
+            padding-left: 100px;
+            display: flex;
+            flex-direction: column;
+            height: 70%;
+            flex-basis: 50%;
+        }
+        .pdf_left>h1{
+            font-size: 38px;
+            line-height: 50px;
+        }
+        .pdf_left>h4{
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+
+
+        /*  Footer Section  */
+
+        footer{
+            width: 100%;
+            height: 25vh;
+            margin-top: 140px;
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background-color: var(--dark);
+        }
+        .logos_div{
+            display: flex;
+            column-gap: 16px;
+        }
+        .logos_div>i{
+            font-size: 19px;
+            background-color: white;
+            padding: 3px;
+            color: var(--dark);
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition:1s;
+        }
+        .logos_div>i:hover{
+            bottom: 4px;
+        }
+        .sitemap_div{
+            display: flex;
+            column-gap: 20px;
+            cursor: pointer;
+        }
+        .sitemap_div>h5{
+            font-size: 12px;
+            font-weight: 300;
+        }
+        .sitemap_div>h5>a:hover{
+            color: var(--primary);
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <nav class="main_nav">
+        <img src="{% static 'images/citlogo2.png' %}" alt="" style="height: 50px;width:50px">
+        <div>
+            <h1><a href="#home">Home</a></h1>
+            <h1><a href="#about">About</a></h1>
+            <h1><a href="mailto:nnavinsubramanian.cse2021@citchennai.net">Contact</a></h1>
+        </div>
+        <a href="/login"><button>Login</button></a>
+    </nav>
+    <div class="homepage_section" id="home">
+        <div class="left_home">
+            <h1>Automate the process of Allocation</h1>
+            <h4>The next future is here to make your life much more easier.</h4>
+            <button>Get Started</button>
+        </div>
+        <div class="right_home">
+            <img src="{% static 'images/homeone.png' %}" alt="">
+        </div>
+    </div>
+    <div class="some_section" id="about">
+        <div>
+            <i class="fa-solid fa-chart-line"></i>
+            <h1>Efficient Allocation</h1>
+            <h3>Equal distribution of jobs for balanced workload.</h3>
+        </div>
+        <div>
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <h1>Remote Work</h1>
+            <h3>Enjoy the automation at anyplace you desire.</h3>
+        </div>
+        <div>
+            <i class="fa-solid fa-briefcase"></i>
+            <h1>Lowers burden</h1>
+            <h3>Finish your work in less than an hour!</h3>
+        </div>
+    </div>
+    <div class="features_section">
+        <div class="left_feature">
+            <img src="{% static 'images/hometwo.png' %}" alt="">
+        </div>
+        <div class="right_feature">
+            <h1>We Provide Many <br> Features You Can Use</h1>
+            <h4>You can explore the features that we provide with fun and have <br> their own functions each feature.</h4>
+            <ul style="list-style: none;">
+                <li><i class="fa-solid fa-circle-check" style="color: #66c931;"></i> Powerfull Tool</li>
+                <li><i class="fa-solid fa-circle-check" style="color: #66c931;"></i> Fast Service</li>
+                <li><i class="fa-solid fa-circle-check" style="color: #66c931;"></i> Foolproof</li>
+                <li><i class="fa-solid fa-circle-check" style="color: #66c931;"></i> Security</li>
+            </ul>
+        </div>
+    </div>
+    <div class="pdf_section">
+        <div class="pdf_left">
+            <h1>PDF's Are Generated <br> Immediately As Output</h1>
+            <ul>
+                <li>Experience instant PDF generation with our system.</li>
+                <li>No additional costs or waiting time for PDF outputs.</li>
+                <li>Enhance productivity with immediate access to generated reports.</li>
+                <li>Our system ensures swift and accurate PDF generation for your convenience.</li>
+            </ul>
+        </div>
+        <div class="pdf_right">
+            <img src="{% static 'images/PDF.png' %}" alt="">
+        </div>
+    </div>
+
+    <footer>
+        <img src="{% static 'images/citlogo2.png' %}" alt="" style="height: 70px;width:70px">
+        <div class="logos_div">
+            <i class="fa-brands fa-linkedin"></i>
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-instagram"></i>
+        </div>
+        <div class="sitemap_div">
+            <h5><a href="#home" style="color: white;">Home</a></h5>
+            <h5><a href="#about" style="color: white;">Services</a></h5>
+            <h5><a href="#about" style="color: white;">About</a></h5>
+            <h5><a href="mailto:nnavinsubramanian.cse2021@citchennai.net" style="color: white;">Contact</a></h5>
+            <h5><a href="/login" style="color: white;">Login</a></h5>
+        </div>
+        <h6>@copyright</h6>
+    </footer>
+    
+</body>
+</html>

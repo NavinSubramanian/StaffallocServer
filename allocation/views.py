@@ -29,6 +29,9 @@ sessions=[]
 def login(request):
     return render(request,"login.html")
 
+def home(request):
+    if(user == ''):
+        return render(request,"homepage.html")
 
 def download_multiple_files(request):
     global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl,user,exam1,sessions,name,name2

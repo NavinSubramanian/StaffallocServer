@@ -6,7 +6,6 @@ from docx import Document
 from docx.shared import Cm,Inches,Twips
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_BREAK
-import docx2pdf
 from PyPDF2 import PdfMerger
 
 from reportlab.lib.pagesizes import letter

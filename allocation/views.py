@@ -104,6 +104,8 @@ def logins(request):
             for i in dept1:
                 dept.append(i[0])
             user='all'
+            # print(staff1)
+            # print(dept)
             # print("YES3")
             return render(request,"edit2.html",{'mstaff':staff1,'dept':dept})
             ## Need to change this line

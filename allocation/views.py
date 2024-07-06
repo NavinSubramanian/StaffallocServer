@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import *
 from django.db.models import Q
 from Logic.logic import *
@@ -95,14 +95,18 @@ def logins(request):
         global mselected_staff,user,fselected_staff
         password=request.POST['password']
         names=Users.objects.filter(name=name).values()
-        if (names[0]['name']=='admin4' and names[0]['password']==password):
+        if (name=='admin4' and password=='1234'):
             staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
+            # print("YES1")
             dept1=Staff.objects.values_list('department').distinct()
             dept=[]
+            # print("YES2")
             for i in dept1:
                 dept.append(i[0])
             user='all'
+            # print("YES3")
             return render(request,"edit2.html",{'mstaff':staff1,'dept':dept})
+            ## Need to change this line
         elif (names[0]['name']==name and names[0]['password']==password):
             staff1=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='M')).exclude(Q(name__in=mselected_staff)|Q(designation='HOD')).values()
             staff2=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='F')).exclude(Q(name__in=fselected_staff)|Q(designation='HOD')).values()

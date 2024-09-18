@@ -1,3 +1,5 @@
+<!-- This page is used for Admin Side Deletion of staffs -->
+
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -44,11 +46,6 @@
             transition: transform 0.7s, box-shadow 0.2s;
         }
 
-        /* .grid-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        } */
-
         .grid-title {
             background-color: #15b9c1;
             font-weight: bold;
@@ -66,14 +63,17 @@
         .popup {
             display: none;
             position: fixed;
-            background-color: rgb(255, 255, 255); /* Fallback color */
-            background-color: rgb(255, 255, 255,0.4); /* Black w/opacity/see-through */
+            background-color: rgb(255, 255, 255);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            height: auto;
+            flex-direction: column;
             z-index: 2;
+            font-family: 'Arial';
         }
 
         .gender-dropdown {
@@ -120,12 +120,12 @@
             font-weight: bold;
             border: 2px solid #15b9c1;
             cursor: pointer;
-            color: black;
+            color: #15b9c1;
             border-radius: 20px;
             transition: 1s;
         }
         .delete:hover{
-            background-color: #19a1a8;
+            background-color: #15b9c1;
             color: white;
         }
         .back{
@@ -149,11 +149,42 @@
             z-index: 0;
         }
 
+        .centered>form{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .centered>form>input{
+            width: 90%;
+            height: 25px;
+        }
+        .submit_button_group>button:first-child{
+            background-color: #1d858b;
+            border: none;
+            border-radius: 20px;
+            padding: 7px 15px;
+            color: white;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .submit_button_group>button:last-child{
+            border: 2px solid #1d858b;
+            background-color: transparent;
+            border-radius: 20px;
+            padding: 7px 15px;
+            color: #1d858b;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 
 <body>
     <h1 style="text-align: center;">Add/Delete Staffs</h1>
+    <p style="text-align: center;">Select the staffs that you want to delete and click <span style="text-decoration: underline;font-weight:600">"Delete Staff"</span> down below.  <br>Or you can add staffs by clicking <span style="text-decoration: underline;font-weight:600">"Insert Staff"</span> down below.</p>
     <form action="/deletion" method="post">
         {%csrf_token%}
         <div class="grid-container">
@@ -188,13 +219,14 @@
     <div>
         <div style="text-align: center;">
             <button class="add" onclick="showPopup()" style="margin-bottom: 20px;">ADD STAFF</button><br>
-            <a href="/back" class="back">Back..?</a>
+            <a href="/dashboard" class="back">Back..?</a>
         </div>
         
-        <div id="popupcontainer" class="popupcontainer" style="width: 100%;height: 100%;overflow: hidden;"></div>>
+        <div id="popupcontainer" class="popupcontainer" style="width: 100%;height: 100%;overflow: hidden;"></div>
+
         <div id="popup" class="popup" >
             <h2>Add Staff</h2>
-            <hr style="border: 1px solid #333; margin-bottom: 10px;">
+            <hr style="border: 1px solid #333; margin-bottom: 20px;width:100%;">
             <div class="split left">
                 <div class="centered">
                     <form action="/addition" method="post">
@@ -219,32 +251,30 @@
                                 <li data-value="M">M</li>
                                 <li data-value="F">F</li>
                             </ul>
+                            &darr;
                         </div><br><br>
-                        <!-- <input type="text" id="staffName" placeholder="Enter staff name"> -->
-                        <button onclick="addStaff()" style="background-color: #007bff;border: none;border-radius: 20px;padding: 5px;cursor: pointer;">Done</button>
-                        <button onclick="hidePopup()" style="background-color: transparent;border: 1px solid #007bff;border-radius: 20px;padding: 5px;cursor: pointer;">Cancel</button>
+                        <div class="submit_button_group">
+                            <button type="submit">Done</button>
+                            <button type="button" onclick="hidePopup()">Cancel</button>
+                        </div>
                 </div>
-
+                
+                <!-- Script for the popup -->
                 <script>
                     function showPopup() {
                         var popup = document.getElementById("popup");
                         var popupcon = document.getElementById("popupcontainer")
                         popupcon.style.top = 0;
-                        popup.style.display = "block";
+                        popup.style.display = "flex";
                     }
 
                     function hidePopup() {
                         var popup = document.getElementById("popup");
                         var popupcon = document.getElementById("popupcontainer")
-                        popupcon.style.top = -1111111111;
+                        popupcon.style.top = "-10000px";
                         popup.style.display = "none";
                     }
 
-                    // function addStaff() {
-                    //     var staffName = document.getElementById("staffName").value;
-                    //     console.log("Added staff: " + staffName);
-                    //     hidePopup();
-                    // }
                     const genderInput = document.getElementById("genderInput");
                     const genderOptions = document.querySelector(".gender-options");
 

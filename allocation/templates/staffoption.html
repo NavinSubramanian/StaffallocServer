@@ -1,3 +1,5 @@
+<!-- This page is for the user to choose the end Semesters exam invigilators -->
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -7,58 +9,95 @@
     <title>Staff Allocation</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/citlogo2.png' %}">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
         table {
-            border-collapse: collapse;
             width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
         th, td {
-            border: 1px solid black;
-            padding: 8px;
+            border: 1px solid #ddd;
+            padding: 12px;
             text-align: center;
+            color: #333;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #e9ecef;
+            font-size: 16px;
+            font-weight: bold;
+            color: #4a4a4a;
+        }
+
+        td {
+            font-size: 14px;
         }
 
         select {
-            width: 100%;
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
         }
-        .submit-button{
+
+        .submit-button {
             background-color: #2a9d8f;
-            text-align: center;
-            color: #fff;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 18px;
+            color: white;
+            font-size: 16px;
             padding: 10px 20px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .submit-button:hover {
+            background-color: #21867a;
+        }
+
+        p {
+            margin: 0;
+            font-weight: bold;
+            font-size: 15px;
         }
 
         @media (max-width: 768px) {
-            table {
-                font-size: 12px; 
+            table, th, td {
+                font-size: 12px;
+                padding: 8px;
             }
 
-            th, td {
-                padding: 4px; 
+            select {
+                width: 100%;
+                font-size: 12px;
             }
-        @media (max-width: 768px) {
 
-            table {
-                margin: 0; 
+            .submit-button {
+                font-size: 14px;
+                padding: 8px 16px;
             }
-        }
         }
     </style>
 </head>
 <body>
+    <h1>Staff Allocation for Exam Duty</h1>
     <form action='edstaff' method='post'>
         {% csrf_token %}
         <table>
@@ -71,7 +110,7 @@
             <tr>
                 <td>
                     <input type="hidden" name="staff" value="{{i|escape}}">
-                    <p >{{i}}</p>
+                    <p>{{i}}</p>
                 </td>
                 <td>
                     <select name="session">
@@ -84,13 +123,13 @@
                     <select name="examDuty">
                         <option value="{{i}}:internal">Internal</option>
                         <option value="{{i}}:external">External</option>
-                        <option value="{{i}}:first floor">Squad: first floor</option>
-                        <option value="{{i}}:second floor">Squad: second floor</option>
-                        <option value="{{i}}:third floor">Squad: third floor</option>
-                        <option value="{{i}}:CITAR block A">Squad: CITAR block A</option>
-                        <option value="{{i}}:CITAR block B">Squad:  CITAR block B</option>
-                        <option value="{{i}}:CITAR block C">Squad:  CITAR block C</option>
-                        <option value="{{i}}:CITAR block D">Squad:  CITAR block D</option>
+                        <option value="{{i}}:first floor">Squad: First floor</option>
+                        <option value="{{i}}:second floor">Squad: Second floor</option>
+                        <option value="{{i}}:third floor">Squad: Third floor</option>
+                        <option value="{{i}}:CITAR block A">Squad: CITAR Block A</option>
+                        <option value="{{i}}:CITAR block B">Squad: CITAR Block B</option>
+                        <option value="{{i}}:CITAR block C">Squad: CITAR Block C</option>
+                        <option value="{{i}}:CITAR block D">Squad: CITAR Block D</option>
                     </select>
                 </td>
             </tr>
@@ -112,19 +151,18 @@
                     <select name="examDuty">
                         <option value="{{i}}:internal">Internal</option>
                         <option value="{{i}}:external">External</option>
-                        <option value="{{i}}:first floor">Squad: first floor</option>
-                        <option value="{{i}}:second floor">Squad: second floor</option>
-                        <option value="{{i}}:third floor">Squad: third floor</option>
-                        <option value="{{i}}:CITAR block A">Squad: CITAR block A</option>
-                        <option value="{{i}}:CITAR block B">Squad:  CITAR block B</option>
-                        <option value="{{i}}:CITAR block C">Squad:  CITAR block C</option>
-                        <option value="{{i}}:CITAR block D">Squad:  CITAR block D</option>
+                        <option value="{{i}}:first floor">Squad: First floor</option>
+                        <option value="{{i}}:second floor">Squad: Second floor</option>
+                        <option value="{{i}}:third floor">Squad: Third floor</option>
+                        <option value="{{i}}:CITAR block A">Squad: CITAR Block A</option>
+                        <option value="{{i}}:CITAR block B">Squad: CITAR Block B</option>
+                        <option value="{{i}}:CITAR block C">Squad: CITAR Block C</option>
+                        <option value="{{i}}:CITAR block D">Squad: CITAR Block D</option>
                     </select>
                 </td>
             </tr>
             {% endfor %}
-            </table>
-        <br>
+        </table>
         <input class="submit-button" type="submit" value="Submit">
     </form>
 </body>

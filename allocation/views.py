@@ -122,7 +122,6 @@ def admins(request):
     global mselected_staff,user,fselected_staff
     current_user = request.user
     username = current_user.username
-    email = current_user.email
 
     if (username == 'admin'):
         staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
@@ -191,9 +190,13 @@ def end1(request):
 
 
 def roomss(request):
-    if user=='all':
+    current_user = request.user
+    username = current_user.username
+    if username=='admin':
         rooms=Rooms.objects.order_by('roomno').values()
-        return render(request,'rooms.html',{'rooms':rooms})
+        global mselected_staff, fselected_staff
+        selected_staffs = len(mselected_staff)+len(fselected_staff)
+        return render(request,'rooms.html',{'rooms':rooms, 'total': selected_staffs})
     return render(request,'finished.html')
 
 
@@ -229,14 +232,18 @@ def d(request):
 
 
 def staffed(request):
+    current_user = request.user
+    username = current_user.username
     global user,mselected_staff,fselected_staff
-    if user=='all':
+    if username=='admin':
         staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
         dept1=Staff.objects.values_list('department').distinct()
         dept=[]
         for i in dept1:
             dept.append(i[0])
         return render(request,"admindelete.html",{'mstaff':staff1,'dept':dept})
+    
+    # Need to change it afterwards
     stff=Staff.objects.filter(department=user.upper()).exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)).values()
     return render(request,'EditStaff.html',{'staff':stff})
 
@@ -247,7 +254,8 @@ def addition(request):
     gender=request.POST['gender']
     desig=request.POST['desig']
     dept=request.POST['dept'].upper()
-    names=title+name
+    names=f'{title}{name} ({dept})'
+    print(names)
     User=Staff.objects.create(name=names,designation=desig,gender=gender,subcode='abcd',department=dept)
     User.save()
     return staffed(request)
@@ -255,6 +263,7 @@ def addition(request):
 
 def deletion(request):
     a=request.POST.getlist('del')
+    print(a)
     for i in a:
         Staff.objects.filter(id=i).delete()
     return staffed(request)

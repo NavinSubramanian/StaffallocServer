@@ -36,93 +36,6 @@
             font-weight: 300;
             margin: 0;
         }
-        .container{
-            display: flex;
-            width: 100vw;
-            row-gap: 10px;
-            height: 90vh;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .main_text{
-            display: flex;
-            justify-content: center;
-            font-weight: 700;
-        }
-        .box{
-            max-width: 40%;
-            display: flex;
-            flex-direction: column;
-            row-gap: 25px;
-            margin: 0 auto;
-        }
-        .box div{
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-        }
-        .box input{
-            width: 150px;
-        }
-        .bb{
-            display: flex;
-            text-align: center;
-            justify-content: space-evenly;
-        }
-        .bb input{
-            width: 250px;
-        }
-        
-        .Box{
-            margin: 0 auto;
-            width: 90%;
-            background-color: rgba(0, 0, 0, 0.158);
-            height: 100%;
-            border-radius: 20px;
-            justify-content: space-between;
-        }
-        .bb select{
-            width: 50%;
-            height: 100px;
-        }
-        .text__box{
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            justify-content: space-evenly;
-        }
-        .sell__box{
-            display: flex;
-            flex-direction: column;
-            flex-basis: 50%;
-        }
-        .sell__box div{
-            margin: 20px 20px;
-        }
-        .text__box form div{
-            margin: 50px 0;
-        }
-        /* form>button{
-            display: grid;
-            width: 150px;
-            height: 35px;
-            border: 2px solid black;
-            color:black;
-            background-color: transparent;
-            transition: 1s;
-            margin: 0 auto;
-            border-radius: 35px;
-            place-items: center;
-            cursor: pointer;
-        }
-        form>button:hover{
-            color: white;
-            background-color: black;
-        } */
-        .select2-container{
-            max-width: 50%;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
         .select2-container--default .select2-selection--multiple .select2-selection__choice{
             background-color: #008CBA;
             border: 1px ;
@@ -142,9 +55,6 @@
             border: none;
     
         }
-        .bb label{
-            border-bottom: 3px solid black;
-        }
 
         @media screen and (max-width:885px) {
             .box div{
@@ -159,75 +69,219 @@
                 max-width: 100%;
             }
         }
-        form>button{
-            margin: auto;
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            padding: 10px 25px;
-            border-radius: 10px;
-            font-size: medium;
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
         }
-        form>button:hover{
-            background-color: black;
-            color: white;
+
+        .main-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .form-container {
+            flex-basis: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .room-count {
+            flex: 0.5;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-left: 20px;
+        }
+
+        .box {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            background-color: #fafafa;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .select2-container {
+            width: 100% !important;
+        }
+
+        @media (max-width: 768px) {
+            .box {
+                padding: 20px;
+            }
+        }
+
+        .count-section {
+            font-size: 18px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .count-number {
+            font-size: 32px;
+            color: #007BFF;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 1158px) {
+            .main-container{
+                justify-content: flex-start;
+            }
+            .form-container{
+                flex-basis: 60%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .form-container{
+                width: 100%;
+            }
+
+            .room-count {
+                width: 100%;
+                margin-top: 20px;
+                max-width: 500px;
+                padding: 20px;
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <section class="container">
-        <div>
-            <h1 class="main_text">Select Rooms</h1>
-            <hr style="margin-bottom: 20px;">
-            <!-- <div class="hero">
-                <div class="box">
-                    <div>
-                        <label for="roomcount" class="font1" style="font-weight: bold;">Total Number of rooms:</label>
-                        <input type="number" id="examCount" min="1" value="1">
-                    </div>
-                    <div>
-                        <label for="staffcount" class="font2" style="font-weight: bold;">Total Number of staffs:</label>
-                        <input type="number" id="examCount" min="1" value="1">
-                    </div>
-                </div>
-            </div> -->
-        </div>
-
-        <div class="Box">
-
-            <div class="text__box">
+    <div class="main-container">
+        <div class="form-container">
+            <div class="box">
+                <h1>Select Rooms</h1>
                 <form action="/roomselect" method="post">
-                {%csrf_token%}
-                    <div class="box1 bb">
-                        <label for="roomInput" class="Name__">All the rooms:</label>
+                    {% csrf_token %}
+
+                    <div>
+                        <label for="roomInput">All the rooms:</label>
                         <select id="roomInput" multiple name="roomInput">
-                            {%for i in rooms%}
-                            <option value="{{i.roomno}}">{{i.roomno}}</option>
-                            {%endfor%}
+                            {% for i in rooms %}
+                            <option value="{{ i.roomno }}">{{ i.roomno }}</option>
+                            {% endfor %}
                         </select>
                     </div>
-                    <div class="box2 bb">
-                        <label for="singlestaff" class="Name__">Single Staffs:</label>
-                        <select id="singlestaff" name="singlestaff" multiple>
-                            {%for i in rooms%}
-                            <option value="{{i.roomno}}">{{i.roomno}}</option>
-                            {%endfor%}
+
+                    <div>
+                        <label for="singlestaff">Single Staffs:</label>
+                        <select id="singlestaff" multiple name="singlestaff">
+                            {% for i in rooms %}
+                            <option value="{{ i.roomno }}">{{ i.roomno }}</option>
+                            {% endfor %}
                         </select>
                     </div>
-                    <div class="box3 bb">
-                        <label for="girlroom" class="Name__">Girls Room:</label>
-                        <select id="girlroom"name="girlroom" multiple>
-                            {%for i in rooms%}
-                            <option value="{{i.roomno}}">{{i.roomno}}</option>
-                            {%endfor%}
+
+                    <div>
+                        <label for="girlroom">Girls Room:</label>
+                        <select id="girlroom" multiple name="girlroom">
+                            {% for i in rooms %}
+                            <option value="{{ i.roomno }}">{{ i.roomno }}</option>
+                            {% endfor %}
                         </select>
                     </div>
-                    <button>Next Step</button>
+
+                    <button type="submit">Next Step</button>
                 </form>
             </div>
         </div>
-        
-    </section>
+
+        <div class="room-count">
+            <div class="count-section">Rooms Selected:</div>
+            <div class="count-number" id="roomCountDisplay">0</div>
+            <div class="count-section">Staff Count Per Room:</div>
+            <p style="font-weight: 300;font-size:14px">[This count should not be higher than the selected staffs count.]</p>
+            <div class="count-number" id="staffNeededDisplay">0</div>
+            <div class="count-section">Staffs Selected:</div>
+            <div class="count-number">{{total}}</div>
+        </div>
+    </div>
+
+    <!-- Script to count the rooms and staffs -->
+    <script>
+        function updateRoomCount() {
+            const totalSelectedRooms = $('#roomInput').select2('data').length;
+            $('#roomCountDisplay').text(totalSelectedRooms);
+        }
+
+        function updateStaffCount() {
+            let needed = $('#roomInput').select2('data').length * 2 - $('#singlestaff').select2('data').length;
+            $('#staffNeededDisplay').text(needed);
+        }
+
+        $(document).ready(function(){
+            $("#roomInput, #singlestaff, #girlroom").select2({
+                placeholder: 'Select rooms',
+                width: 'resolve'
+            });
+
+            $("#roomInput").on('change', updateRoomCount);
+            $("#roomInput, #singlestaff").on('change', updateStaffCount);
+        });
+    </script>
+
+    <!-- Script to view the selected rooms -->
     <script>
         var selectedRooms = [];
         var selectedSingleRooms = [];

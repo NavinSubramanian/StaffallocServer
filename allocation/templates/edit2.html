@@ -140,6 +140,21 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .select_all_button{
+            padding: 7px 10px;
+            text-align: left;
+            background-color: white;
+            border-radius: 5px;
+            border: none;
+            color: #21888d;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .select_all_button:hover{
+            transform: scale(0.9);
+        }
     </style>
 </head>
 
@@ -151,14 +166,18 @@
         <div class="grid-container">
             {%for j in dept%}
             <div class="grid-item">
-                <div class="grid-title">{{j}}</div>
+                <div class="grid-title">
+                    {{j}}
+                    <button type="button" onclick="selectAll('{{ j }}')" class="select_all_button">Select All {{ j }}</button>
+                </div>
+
+
                 {%for i in mstaff%}
                 {%if i.department == j%}
                 <div style="height:20px;width: 100%;display: flex;justify-content: flex-start;padding-left: 50px;padding-top: 7px;padding-bottom: 7px;">
-                    <input type="checkbox" id="staff1" name="staff_name" value="{{i.id}}">
-                    <label for="staff1">{{i.name}}</label><br>
+                    <input type="checkbox" id="staff{{i.id}}" class="staff-checkbox-{{j}}" name="staff_name" value="{{i.id}}">
+                    <label for="staff{{i.id}}">{{i.name}}</label><br>
                 </div>
-                    
                 {%endif%}
                 {%endfor%}
             </div>
@@ -171,6 +190,16 @@
     </form>
 
     <a href="staffedition/" style="margin-bottom: 50px;">Add/Del staff database?</a>
+
+    <!-- Script to choose all the staff from a particular department -->
+    <script>
+        function selectAll(department) {
+            const checkboxes = document.querySelectorAll(`.staff-checkbox-${department}`);
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+        }
+    </script>
 </body>
 
 </html>

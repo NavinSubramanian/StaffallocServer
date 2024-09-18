@@ -2,10 +2,9 @@ from django.urls import path
 from . import views
 urlpatterns=[
     path("",views.home),
-    path("login",views.login),
     path("register",views.register),
     path("logins",views.logins),
-    path("logout",views.login),
+    path("logout",views.logout_user),
     path("staffselection",views.staffselection),
     path("edition",views.edition),
     path('edit/',views.edit),
@@ -19,4 +18,5 @@ urlpatterns=[
     path('endsem',views.endsem1),
     path('edstaff',views.edstaff),
     path('download-multiple/', views.download_multiple_files, name='download_multiple_files'),
+    path('dashboard',views.admins)
 ]

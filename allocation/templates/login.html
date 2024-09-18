@@ -9,12 +9,12 @@
   <link rel="icon" type="image/x-icon" href="{% static 'images/citlogo2.png' %}">
   <style>
     body {
-    margin: 0;
-    color: #6a6f8c;
-    font-size: 600 16px/18px;
-    background-color: #ffffff;
-    font-family: 'Arial', sans-serif;
-  }
+      margin: 0;
+      color: #6a6f8c;
+      font-size: 600 16px/18px;
+      background-color: #ffffff;
+      font-family: 'Arial', sans-serif;
+    }
     *,
     :after,
     :before {
@@ -184,6 +184,16 @@
       transform: rotate(0);
     }
 
+    .sign-up-htm>.group>input{
+      border: none;
+      padding: 15px 20px;
+      border-radius: 5px;
+      background: rgb(219, 219, 219);
+      margin-top: 5px; 
+      cursor: pointer;
+      width: 100%;
+    }
+
     .hr {
       height: 2px;
       margin: 28px 0 50px 0;
@@ -195,75 +205,75 @@
       font-size: 14px;
     }
     .logo {
-          display: flex;
-          flex-direction: column;
-          place-items: center;
-          margin: 0 auto;
-          
+      display: flex;
+      flex-direction: column;
+      place-items: center;
+      margin: 0 auto;
+      
 
-        }
-        .logo img {
-          height: 120px;
-          width: 500px;
-          
-          
-        }
-        .Text{
-          display: flex;
-          place-items: center;
-          flex-direction: column;
-          text-align: center;
-          color: white;
-          font-weight: bold;
-        }
-        .line{
-          display: flex;
-          width: 100%;
-          padding-top: 4px;
-          height: 2px;
-          background-color: #333;
-          margin: 20px 0;
-        }
-        .wrapper{
-          width: 100vw;
-          height: 100vh;
-          flex-direction: column;
-          display: flex;
-        }
-        .left{
-          flex-basis: 40%;
-          background: linear-gradient(to bottom, #3498db, #1abc9c);
-          color: white;
-          display: flex;
-          place-items: center;
-          margin: 10px;
-          border-radius: 50px;
-          text-align: center;
-          justify-content: center;
-        }
-        .Text h1{
-          font-size: 34px;
-        }
-        .Text h2{
-          font-size: 22px;
-        }
-        .right{
-          flex-basis: 60%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .svf{
-          height: 100px;
-          width: 100px;
-        }
+    }
+    .logo img {
+      height: 120px;
+      width: 500px;
+      
+      
+    }
+    .Text{
+      display: flex;
+      place-items: center;
+      flex-direction: column;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+    }
+    .line{
+      display: flex;
+      width: 100%;
+      padding-top: 4px;
+      height: 2px;
+      background-color: #333;
+      margin: 20px 0;
+    }
+    .wrapper{
+      width: 100vw;
+      height: 100vh;
+      flex-direction: column;
+      display: flex;
+    }
+    .left{
+      flex-basis: 40%;
+      background: linear-gradient(to bottom, #3498db, #1abc9c);
+      color: white;
+      display: flex;
+      place-items: center;
+      margin: 10px;
+      border-radius: 50px;
+      text-align: center;
+      justify-content: center;
+    }
+    .Text h1{
+      font-size: 34px;
+    }
+    .Text h2{
+      font-size: 22px;
+    }
+    .right{
+      flex-basis: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .svf{
+      height: 100px;
+      width: 100px;
+    }
 
 
-        @media screen and (min-width:660px) {
-          .wrapper{
-            flex-direction: row;
-          }
-        }
+    @media screen and (min-width:660px) {
+      .wrapper{
+        flex-direction: row;
+      }
+    }
 
   </style>
 </head>
@@ -284,60 +294,53 @@
           <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab" style="font-weight: bolder;transition: 0.5s;">Sign In</label>
           <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab" style="font-weight: bolder;transition: 0.5s;">Sign Up</label>
           <div class="login-form">
-            <form action="logins" method="post">
-              {%csrf_token%}
+          <form action="logins" method="post">
+            {%csrf_token%}
             <div class="sign-in-htm">
               <h2 style="font-weight: bold; margin-bottom: 30px;color: black;">Welcome <span style="color: #1161ee;">Back</span> 👋</h2>
               <div class="group">
-                <label for="user" class="label">Email or Username</label>
-                <input id="user" type="text" name='name' class="input">
+                <label for="user" class="label">Username</label>
+                <input id="user" type="text" name='username' class="input">
               </div>
               <div class="group">
                 <label for="pass" class="label">Password</label>
                 <input id="pass" type="password" password='password' name='password' class="input" data-type="password">
               </div>
-              <!-- <div class="group">
-                <input id="check" type="checkbox" class="check" checked>
-                <label for="check"><span class="icon"></span> Keep me Signed in</label>
-              </div> -->
               <div class="group" style="margin-top: 60px;">
                 <input type="submit" class="button" value="Sign in" style="color:white;font-weight:600">
               </div>
-              <div class="hr"></div>
-              <div class="foot-lnk">
-              </div>
+              {% for message in messages %}
+                <p>{{message}}</p>
+              {% endfor %}
             </div>
           </form>
-          <form action="register" method="post">
+
+          <form action="register" method="POST">
             {%csrf_token%}
             <div class="sign-up-htm">
               <div class="group">
-                <label for="user" class="label">Username</label>
-                <input id="user" type="text" name="name" class="input">
+                <label class="label">{{form.username.label}}</label>
+                {{form.username}}
               </div>
               <div class="group">
-                <label for="pass" class="label">Password</label>
-                <input id="pass" type="password" name="password" class="input" data-type="password">
+                <label for="" class="label">{{form.email.label}}</label>
+                {{form.email}}
               </div>
               <div class="group">
-                <label for="pass" class="label">Repeat Password</label>
-                <input id="pass" type="password" name="confirmation" class="input" data-type="password">
-              </div>          
-              <div class="group">
-                <label for="dept" class="label">Department</label>
-                <input id="dept" type="text" name="department" class="input">
+                <label for="" class="label">{{form.password1.label}}</label>
+                {{form.password1}}
               </div>
               <div class="group">
-                <label for="pass" class="label">Email Address</label>
-                <input id="pass" type="text" name="email" class="input">
+                <label for="" class="label">{{form.password2.label}}</label>
+                {{form.password2}}
               </div>
               <div class="group">
-                <input type="submit" class="button" value="Sign Up" style="margin-top: 50px;color:white;font-weight:600">
+                <label for="" class="label">{{form.department.label}}</label>
+                {{form.department}}
               </div>
-              <!-- <div class="hr"></div> -->
-              <!-- <div class="foot-lnk">
-                <label for="tab-1" style="color: white;">Already Member?</a>
-              </div> -->
+              <div class="group">
+                <input class="button" type="submit" name="Create User" style="color: white;">
+              </div>
             </div>
           </form>
           </div>

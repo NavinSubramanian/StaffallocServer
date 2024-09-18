@@ -1,4 +1,7 @@
 from django.shortcuts import render,redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login as auth_login, logout
+from django.contrib import messages
 from .models import *
 from django.db.models import Q
 from Logic.logic import *
@@ -9,6 +12,8 @@ from django.core.files import File
 import tempfile
 import zipfile
 import os
+
+from .forms import CreateUserForm
 
 user=''
 index1=[]
@@ -26,12 +31,8 @@ name=[]
 exam1=[]
 sessions=[]
 
-def login(request):
-    return render(request,"login.html")
-
 def home(request):
-    if(user == ''):
-        return render(request,"homepage.html")
+    return render(request,"homepage.html")
 
 def download_multiple_files(request):
     global date,exam,tot,mselected_staff,fselected_staff,single,rooms,girl,user,exam1,sessions,name,name2
@@ -67,17 +68,23 @@ def download_multiple_files(request):
 
 
 def register(request):
-    name=request.POST['name']
-    password=request.POST['password']
-    confirmation=request.POST['confirmation']
-    department=request.POST['department']
-    email=request.POST['email']
-    names=Users.objects.values_list('name')
-    print(name," ",password," ",confirmation," ",department," ",email)
-    if name!='' and password==confirmation and name not in names[0]: 
-        user=Users(name=name,password=password,department=department,email=email)
-        user.save()
-    return render(request,"login.html")
+    form = CreateUserForm()
+
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            department = form.cleaned_data['department']
+            Profile.objects.create(username=user, department=department)
+            messages.success(request, 'User was created successfully')
+            return redirect('/logins')
+        else:
+            print(form.errors)
+            messages.error(request, "Form submission failed. Please correct the errors below.")
+            return redirect('/logins')
+    context = {'form' : form}
+
+    return render(request,"login.html",context)
 
 
 def endsem1(request):
@@ -90,37 +97,34 @@ def noend(request):
 
 
 def logins(request):
-    try:    
-        name=request.POST['name']
-        global mselected_staff,user,fselected_staff
-        password=request.POST['password']
-        names=Users.objects.filter(name=name).values()
-        if (name=='admin4' and password=='1234'):
-            staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
-            # print("YES1")
-            dept1=Staff.objects.values_list('department').distinct()
-            dept=[]
-            # print("YES2")
-            for i in dept1:
-                dept.append(i[0])
-            user='all'
-            # print(staff1)
-            # print(dept)
-            # print("YES3")
-            return render(request,"edit2.html",{'mstaff':staff1,'dept':dept})
-            ## Need to change this line
-        elif (names[0]['name']==name and names[0]['password']==password):
-            staff1=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='M')).exclude(Q(name__in=mselected_staff)|Q(designation='HOD')).values()
-            staff2=Staff.objects.filter(Q(department=names[0]['department'].upper())&Q(gender='F')).exclude(Q(name__in=fselected_staff)|Q(designation='HOD')).values()
-            user=names[0]['department']
-            return render(request,"staff.html",{'mstaff':staff1,'fstaff':staff2})
-        return render(request,"login.html")
-    except:
-        return render(request,'login.html')
+    form = CreateUserForm()
+    context = {'form' : form}
+
+    if request.method == "POST":
+        try:  
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            checkuser = authenticate(request, username=username, password=password)
+            if checkuser is not None:
+                auth_login(request, checkuser)
+                print("DONE")
+                return redirect('/')
+            else:
+                messages.info(request, 'Wrong login credentials')
+        except:
+            return redirect('/login')
+    else:
+        return render(request,'login.html', context)
 
 
 def admins(request):
-        global user
+    global mselected_staff,user,fselected_staff
+    current_user = request.user
+    username = current_user.username
+    email = current_user.email
+
+    if (username == 'admin'):
         staff1=Staff.objects.exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)|Q(designation='HOD')).order_by().values()
         dept1=Staff.objects.values_list('department').distinct()
         dept=[]
@@ -128,6 +132,16 @@ def admins(request):
             dept.append(i[0])
         user='all'
         return render(request,"edit2.html",{'mstaff':staff1,'dept':dept})
+    else:
+        profile = Profile.objects.get(username=current_user)
+        department = profile.department
+
+        staff1=Staff.objects.filter(Q(department=department)&Q(gender='M')).exclude(Q(name__in=mselected_staff)|Q(designation='HOD')).values()
+        staff2=Staff.objects.filter(Q(department=department)&Q(gender='F')).exclude(Q(name__in=fselected_staff)|Q(designation='HOD')).values()
+        user=department
+        return render(request,"staff.html",{'mstaff':staff1,'fstaff':staff2})
+    
+    return redirect('/')
 
 
 def staffselection(request):
@@ -274,3 +288,8 @@ def edstaff(request):
     if user=='all':
             return render(request,'examtype2.html')
     return render(request,'finished.html')
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, ('logout successfull'))
+    return redirect('/')

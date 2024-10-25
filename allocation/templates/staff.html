@@ -89,20 +89,22 @@
     <form action="staffselection" method='post'>
     {% csrf_token %}
         <h1>Select Staffs</h1>
-    <div class="box1">
-        
-        {%for i in mstaff%}
-        <input type='checkbox' name='staff_name' value="{{i.id}}"><label for="{{i.name}}"> {{i.name}}</label><br>
-        {%endfor%}
-        {%for i in fstaff%}
-        <input type='checkbox' name='staff_name' value="{{i.id}}"><label for="{{i.name}}"> {{i.name}}</label><br>
-        {%endfor%}
-            
-    </div>
-    <a href="staffedition/">Edit Staff</button></a>
+        <div class="box1">
+            {%for i in mstaff%}
+            <input type='checkbox' name="staff_name" id='staff_name_{{i.name}}' value="{{i.id}}">
+            <label for="staff_name_{{i.name}}"> {{i.name}}</label><br>
+            {%endfor%}
 
-    <button class="next" id="nextPageButton">Next</button>
-</form>
+            {%for i in fstaff%}
+            <input type='checkbox' name="staff_name" id='staff_name_{{i.name}}' value="{{i.id}}">
+            <label for="staff_name_{{i.name}}"> {{i.name}}</label><br>
+            {%endfor%}
+        </div>
+        <a href="staffedition/">Edit Staff</button></a>
+
+        <button class="next" id="nextPageButton">Next</button>
+    </form>
+
     <script>
     document.getElementById("editPageButton").addEventListener("click", function() {
     

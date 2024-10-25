@@ -95,7 +95,6 @@ def endsem1(request):
 def noend(request):
     pass
 
-
 def logins(request):
     form = CreateUserForm()
     context = {'form' : form}
@@ -113,7 +112,7 @@ def logins(request):
             else:
                 messages.info(request, 'Wrong login credentials')
         except:
-            return redirect('/login')
+            return redirect('/logins')
     else:
         return render(request,'login.html', context)
 
@@ -160,16 +159,18 @@ def staffselection(request):
 
 
 def edit(request):
-    global user,mselected_staff,fselected_staff
+    current_user = request.user
+    username = current_user.username
+    global mselected_staff,fselected_staff
     mselectedstaff=[]
     fselectedstaff=[]
-    if user=='all':
+    if username=='admin':
         return render(request,'edit.html',{'mstaff':mselected_staff,'fstaff':fselected_staff})
     for i in mselected_staff:
-        if user in i.lower():
+        if username in i.lower():
             mselectedstaff.append(i)
     for i in fselected_staff:
-        if user in i.lower():
+        if username in i.lower():
             fselectedstaff.append(i)
     return render(request,'edit.html',{'mstaff':mselectedstaff,'fstaff':fselectedstaff})
 
@@ -243,8 +244,9 @@ def staffed(request):
             dept.append(i[0])
         return render(request,"admindelete.html",{'mstaff':staff1,'dept':dept})
     
-    # Need to change it afterwards
-    stff=Staff.objects.filter(department=user.upper()).exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)).values()
+    profile = Profile.objects.get(username=current_user)
+    department = profile.department
+    stff=Staff.objects.filter(department=department).exclude(Q(name__in=mselected_staff)|Q(name__in=fselected_staff)).values()
     return render(request,'EditStaff.html',{'staff':stff})
 
 

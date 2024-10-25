@@ -100,7 +100,7 @@ import dj_database_url
 
 DATABASES = {
 
-    'default':dj_database_url.parse(env('DATABASE_URL'))
+    'default':dj_database_url.parse("postgres://default:Fuil6pj1nwty@ep-young-night-a1alo2m0.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require")
 }
 
 
